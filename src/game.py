@@ -30,7 +30,7 @@ class Game(object):
     SCROLL_STEP_X = 3
     SCROLL_STEP_Y = 3
     ORIGIN = (0, 0)
-    cornerpoint = [0, 0]
+    corner_point = [0, 0]
     BLACK = (0, 0, 0)
     BACK_FILL_COLOR = BLACK
 
@@ -82,8 +82,8 @@ class Game(object):
                 if event.type == KEYDOWN:
                     pass
 
-            self.background = self.bigmap.subsurface(self.cornerpoint[0],
-                                                     self.cornerpoint[1],
+            self.background = self.bigmap.subsurface(self.corner_point[0],
+                                                     self.corner_point[1],
                                                      self.WIN_WIDTH,
                                                      self.WIN_HEIGHT).convert()
             self.current_map.animate()
