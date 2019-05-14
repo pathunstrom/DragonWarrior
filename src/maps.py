@@ -1,5 +1,8 @@
+from os.path import join
+
 import pygame
 from pygame.sprite import Group, RenderUpdates
+from src import game
 
 from src.animated_sprite import AnimatedSprite
 from src.base_sprite import BaseSprite
@@ -80,6 +83,7 @@ tantegel_courtyard = [
 
 current_map = None
 
+
 # Working on class refactoring of maps
 
 
@@ -120,14 +124,19 @@ class TantegelThroneRoom(object):
         self.right_guard_images = right_guard_images
         self.roaming_guard_images = roaming_guard_images
         self.roaming_characters = []
+        self.center_pt = None
+        self.king_lorik = None
+        self.left_guard = None
+        self.right_guard = None
+        self.roaming_guard = None
+        self.player_sprites = None
 
         self.layout = tantegel_throne_room
         self.width = len(self.layout[0] * TILE_SIZE)
         self.height = len(self.layout * TILE_SIZE)
-
-        pygame.mixer.music.load(
-            "/Users/eforgacs/PycharmProjects/DragonWarrior_clone/data/02%20Dragon%20Quest%201%20-%20Tantegel%20Castle%20(22khz%20mono).ogg")
-        #pygame.mixer.music.play(-1)
+        self.bgm = join(game.Game.DATA_DIR, '02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg')
+        pygame.mixer.music.load(self.bgm)
+        pygame.mixer.music.play(-1)
 
     def load_map(self):
         current_loaded_map = self
@@ -138,7 +147,7 @@ class TantegelThroneRoom(object):
         for y in range(len(self.layout)):
             for x in range(len(self.layout[y])):
                 self.center_pt = [(x * TILE_SIZE) + x_offset,
-                             (y * TILE_SIZE) + y_offset]
+                                  (y * TILE_SIZE) + y_offset]
                 if self.layout[y][x] == ROOF:
                     roof = BaseSprite(self.center_pt, self.map_tiles[ROOF][0])
                     self.roof_group.add(roof)

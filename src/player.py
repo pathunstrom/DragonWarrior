@@ -1,6 +1,7 @@
-from src.animated_sprite import AnimatedSprite
 import pygame
+
 import src.game
+from src.animated_sprite import AnimatedSprite
 
 
 class Player(AnimatedSprite):
@@ -21,8 +22,8 @@ class Player(AnimatedSprite):
     def set_center_point(self, center_point):
         self.center_point = center_point
 
-    #def render(self, display):
-        #display.blit(self.image, (self.rect.x, self.rect.y))
+    # def render(self, display):
+    # display.blit(self.image, (self.rect.x, self.rect.y))
 
     def move(self, camera_pos):
         # TODO: Smooth out movement.

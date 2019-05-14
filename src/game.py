@@ -35,8 +35,6 @@ class Game(object):
     corner_point = [0, 0]
     BLACK = (0, 0, 0)
     BACK_FILL_COLOR = BLACK
-    MOVEEVENT = pygame.USEREVENT + 1
-    pygame.time.set_timer(MOVEEVENT, 100)
 
     def __init__(self):
         # Initialize pygame
@@ -51,10 +49,24 @@ class Game(object):
         self.roaming_character_go_cooldown = 3000
         self.sprite_movement_wait_period = 10
         if src.maps.current_map is None:
-            src.mapscurrent_map = src.maps.TantegelThroneRoom
+            src.maps.current_map = src.maps.TantegelThroneRoom
             self.player = None
         self.map_tiles = []
-
+        self.map_tilesheet = None
+        self.unarmed_hero_sheet = None
+        self.king_lorik_sheet = None
+        self.left_guard_sheet = None
+        self.right_guard_sheet = None
+        self.roaming_guard_sheet = None
+        self.unarmed_hero_images = None
+        self.king_lorik_images = None
+        self.left_guard_images = None
+        self.right_guard_images = None
+        self.roaming_guard_images = None
+        self.bigmap_width = None
+        self.bigmap_height = None
+        self.bigmap = None
+        self.current_map = None
         self.load_images()
 
     def main(self):
@@ -68,8 +80,8 @@ class Game(object):
         # Make the big scrollable map
         self.make_bigmap()
 
-        # self.current_map.draw_map(self.bigmap)
-        self.current_map.draw_sprites(self.bigmap)
+        #self.current_map.draw_map(self.bigmap)
+        #self.current_map.draw_sprites(self.bigmap)
 
         self.background = Surface(self.screen.get_size()).convert()
         self.background.fill(self.BACK_FILL_COLOR)
@@ -159,7 +171,6 @@ class Game(object):
     def load_images(self):
         """Load all the images for the game graphics.
         """
-        # try:
         # Load the map tile spritesheet
         self.map_tilesheet = load_extended(self.MAP_TILES_PATH).convert()
         # Load unarmed hero images
@@ -170,10 +181,6 @@ class Game(object):
         self.left_guard_sheet = load_extended(self.LEFT_GUARD_PATH)
         self.right_guard_sheet = load_extended(self.RIGHT_GUARD_PATH)
         self.roaming_guard_sheet = load_extended(self.ROAMING_GUARD_PATH)
-
-        # except error as e:
-        #    print(e)
-        #    return
 
         self.map_tilesheet = scale(self.map_tilesheet,
                                    (self.map_tilesheet.get_width() * SCALE,
