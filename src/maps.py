@@ -17,8 +17,8 @@ WOOD = 2
 BRICK = 3
 CHEST = 4
 DOOR = 5
-BRICK_STAIRDN = 6
-BRICK_STAIRUP = 7
+BRICK_STAIR_DOWN = 6
+BRICK_STAIR_UP = 7
 BARRIER = 8
 WEAPON_SIGN = 9
 INN_SIGN = 10
@@ -29,7 +29,7 @@ TREES = 14
 HILLS = 15
 MOUNTAINS = 16
 CAVE = 17
-GRASS_STAIRDN = 18
+GRASS_STAIR_DOWN = 18
 SAND = 19
 MARSH = 20
 BRIDGE = 21
@@ -109,7 +109,7 @@ class TantegelThroneRoom(object):
             right_guard_images = []
         if roaming_guard_images is None:
             roaming_guard_images = []
-        self.brick_stairdn_group = Group()
+        self.brick_stair_down_group = Group()
         self.door_group = Group()
         self.chest_group = Group()
         self.brick_group = Group()
@@ -136,7 +136,7 @@ class TantegelThroneRoom(object):
         self.height = len(self.layout * TILE_SIZE)
         self.bgm = join(game.Game.DATA_DIR, '02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg')
         pygame.mixer.music.load(self.bgm)
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.music.play(-1)
 
     def load_map(self):
         current_loaded_map = self
@@ -166,10 +166,10 @@ class TantegelThroneRoom(object):
                 elif self.layout[y][x] == DOOR:
                     door = BaseSprite(self.center_pt, self.map_tiles[DOOR][0])
                     self.door_group.add(door)
-                elif self.layout[y][x] == BRICK_STAIRDN:
-                    brick_stairdn = BaseSprite(self.center_pt, self.map_tiles[
-                        BRICK_STAIRDN][0])
-                    self.brick_stairdn_group.add(brick_stairdn)
+                elif self.layout[y][x] == BRICK_STAIR_DOWN:
+                    brick_stair_down = BaseSprite(self.center_pt, self.map_tiles[
+                        BRICK_STAIR_DOWN][0])
+                    self.brick_stair_down_group.add(brick_stair_down)
                 elif self.layout[y][x] == HERO:
                     # Make player start facing up if in Tantegel Throne Room, else face down.
                     if isinstance(current_loaded_map, TantegelThroneRoom):
@@ -244,7 +244,7 @@ class TantegelThroneRoom(object):
         self.brick_group.draw(surface)
         self.chest_group.draw(surface)
         self.door_group.draw(surface)
-        self.brick_stairdn_group.draw(surface)
+        self.brick_stair_down_group.draw(surface)
 
     def clear_sprites(self, screen, surface):
         self.player_sprites.clear(screen, surface)

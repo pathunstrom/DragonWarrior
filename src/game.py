@@ -63,10 +63,11 @@ class Game(object):
         self.left_guard_images = None
         self.right_guard_images = None
         self.roaming_guard_images = None
-        self.bigmap_width = None
-        self.bigmap_height = None
-        self.bigmap = None
+        self.big_map_width = None
+        self.big_map_height = None
+        self.big_map = None
         self.current_map = None
+        self.background = None
         self.load_images()
 
     def main(self):
@@ -78,10 +79,10 @@ class Game(object):
         # self.load_map()
 
         # Make the big scrollable map
-        self.make_bigmap()
+        self.make_big_map()
 
-        #self.current_map.draw_map(self.bigmap)
-        #self.current_map.draw_sprites(self.bigmap)
+        # self.current_map.draw_map(self.big_map)
+        # self.current_map.draw_sprites(self.big_map)
 
         self.background = Surface(self.screen.get_size()).convert()
         self.background.fill(self.BACK_FILL_COLOR)
@@ -93,7 +94,7 @@ class Game(object):
         camera_pos = self.current_map.center_pt
 
         while True:
-            self.current_map.draw_map(self.bigmap)
+            self.current_map.draw_map(self.big_map)
             self.current_map.clear_sprites(self.screen, self.background)
             self.clock.tick(self.FPS)
             for event in pygame.event.get():
@@ -103,10 +104,10 @@ class Game(object):
             # TODO: disable moving if a dialog box is open.
             self.current_map.player.move(camera_pos)
             self.move_roaming_character()
-            self.background = self.bigmap.subsurface(self.corner_point[0],
-                                                     self.corner_point[1],
-                                                     self.WIN_WIDTH,
-                                                     self.WIN_HEIGHT).convert()
+            self.background = self.big_map.subsurface(self.corner_point[0],
+                                                      self.corner_point[1],
+                                                      self.WIN_WIDTH,
+                                                      self.WIN_HEIGHT).convert()
             self.current_map.animate()
             self.current_map.draw_sprites(self.background)
 
@@ -154,11 +155,11 @@ class Game(object):
             elif self.current_map.roaming_guard.rect.y > self.WIN_HEIGHT - 48:
                 self.current_map.roaming_guard.rect.y = self.WIN_HEIGHT - 48
 
-    def make_bigmap(self):
-        self.bigmap_width = self.current_map.width
-        self.bigmap_height = self.current_map.height
-        self.bigmap = Surface((self.bigmap_width, self.bigmap_height)).convert()
-        self.bigmap.fill(self.BACK_FILL_COLOR)
+    def make_big_map(self):
+        self.big_map_width = self.current_map.width
+        self.big_map_height = self.current_map.height
+        self.big_map = Surface((self.big_map_width, self.big_map_height)).convert()
+        self.big_map.fill(self.BACK_FILL_COLOR)
 
     def load_current_map(self):
         self.current_map = src.maps.TantegelThroneRoom(self.player, self.map_tiles,
