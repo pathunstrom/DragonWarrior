@@ -2,8 +2,8 @@ from os.path import join
 
 import pygame
 from pygame.sprite import Group, RenderUpdates
-from src import game
 
+from src import game
 from src.animated_sprite import AnimatedSprite
 from src.base_sprite import BaseSprite
 from src.common import TILE_SIZE
@@ -51,34 +51,93 @@ LEFT_GUARD = 36
 RIGHT_GUARD = 37
 ROAMING_GUARD = 38
 
+impassable_objects = [ROOF, WALL, WOOD, DOOR, BARRIER, WEAPON_SIGN, INN_SIGN, MOUNTAINS, WATER, BOTTOM_COAST, BOTTOM_LEFT_COAST, LEFT_COAST, TOP_LEFT_COAST, TOP_COAST, TOP_RIGHT_COAST, RIGHT_COAST, BOTTOM_RIGHT_COAST, BOTTOM_TOP_LEFT_COAST, BOTTOM_TOP_COAST, BOTTOM_TOP_RIGHT_COAST, KING_LORIK, LEFT_GUARD, RIGHT_GUARD, ROAMING_GUARD]
+
 tantegel_throne_room = [
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o3, 0o3, 0o3, 0o3, 0o3, 0o3, 0o4, 0o3, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o3, 0o2, 0o2, 0o2, 0o2, 0o2, 0o2, 0o3, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o3, 0o2, 35, 0o2, 0o2, 0o3, 0o2, 0o3, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o3, 0o3, 34, 0o4, 0o4, 0o3, 0o3, 0o3, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o3, 0o3, 0o3, 0o3, 0o3, 38, 0o3, 0o3, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o3, 0o3, 37, 0o3, 36, 0o3, 0o3, 0o3, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o1, 0o1, 0o1, 0o5, 0o1, 0o1, 0o1, 0o1, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o3, 0o3, 0o3, 0o3, 0o3, 0o3, 0o3, 0o6, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 0o1, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
-    [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 3, 4, 3, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 3, 2, 2, 2, 2, 2, 2, 3, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 3, 2, 35, 2, 2, 3, 2, 3, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 34, 4, 4, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 38, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 37, 3, 36, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 3, 3, 6, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
+# 30 x 30
+tantegel_courtyard = [
+    [1, 1, 1, 1, 1, 1, 1, 13, 13, 13, 13, 13, 13, 13, 13, 1, 1, 1, 1, 1, 1, 1, 13, 1, 1, 1, 13, 14, 13, 13],
+    [1, 3, 3, 3, 3, 3, 1, 13, 14, 13, 14, 14, 13, 14, 13, 1, 3, 3, 3, 3, 3, 1, 13, 1, 3, 1, 13, 13, 13, 13],
+    [1, 3, 3, 3, 3, 3, 1, 13, 13, 13, 13, 13, 13, 13, 13, 1, 3, 3, 3, 3, 3, 1, 13, 1, 2, 1, 13, 13, 13, 13],
+    [1, 3, 3, 1, 3, 3, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 3, 3, 3, 3, 3, 1, 13, 1, 13, 13, 13, 14, 14, 13, 13, 13],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3],
+    [1, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3],
+    [1, 1, 1, 1, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3],
+    [1, 3, 3, 3, 1, 3, 1, 7, 34, 3, 3, 3, 3, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3],
+    [1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3],
+    [1, 3, 3, 3, 1, 3, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3],
+    [1, 1, 1, 1, 1, 3, 1, 14, 14, 3, 3, 3, 3, 14, 14, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 1, 3, 1, 14, 14, 3, 3, 3, 3, 14, 14, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 1, 3, 1, 14, 13, 3, 3, 3, 3, 13, 14, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 4, 3, 3, 5, 3, 1, 13, 13, 3, 3, 3, 3, 13, 13, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 4, 3, 1, 3, 1, 13, 13, 3, 3, 3, 3, 13, 13, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 4, 3, 4, 1, 3, 1, 13, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 1, 1, 1, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
 ]
 
-tantegel_courtyard = [
-
+overworld = [
+    [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 30, 13, 13, 13, 13, 13, 13, 24, 23, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 30, 13, 13, 13, 14, 14, 14, 14, 13, 13, 24, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 13, 13, 12, 14, 14, 14, 14, 14, 14, 13, 13, 24, 23, 23, 23, 23, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 13, 14, 14, 14, 14, 14, 14, 14, 14, 14, 13, 13, 13, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 14, 14, 14, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 15, 15, 15, 15, 15, 34, 16, 16, 16, 16, 16, 14, 14, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 15, 15, 15, 15, 16, 16, 16, 16, 14, 14, 14, 14, 14, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 15, 15, 15, 15, 16, 16, 14, 14, 14, 14, 14, 14, 14, 14, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 29, 15, 15, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 14, 14, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 27, 28, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 14, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 28, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 14, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 22, 28, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
 ]
 
 current_map = None
@@ -92,8 +151,8 @@ class TantegelThroneRoom(object):
     This is the first map in the game.
     """
 
-    def __init__(self, player, map_tiles, hero_images=None,
-                 king_lorik_images=None, left_guard_images=None, right_guard_images=None, roaming_guard_images=None):
+    def __init__(self, map_tiles, hero_images=None, king_lorik_images=None, left_guard_images=None,
+                 right_guard_images=None, roaming_guard_images=None):
         self.current_map = TantegelThroneRoom
         self.roaming_guard_sprites = RenderUpdates()
         self.right_guard_sprites = RenderUpdates()
@@ -116,7 +175,7 @@ class TantegelThroneRoom(object):
         self.wood_group = Group()
         self.wall_group = Group()
         self.roof_group = Group()
-        self.player = player
+        self.player = None
         self.map_tiles = map_tiles
         self.hero_images = hero_images
         self.king_lorik_images = king_lorik_images
@@ -134,9 +193,9 @@ class TantegelThroneRoom(object):
         self.layout = tantegel_throne_room
         self.width = len(self.layout[0] * TILE_SIZE)
         self.height = len(self.layout * TILE_SIZE)
-        self.bgm = join(game.Game.DATA_DIR, '02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg')
+        self.bgm = join(game.Game.MUSIC_DIR, '02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg')
         pygame.mixer.music.load(self.bgm)
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
 
     def load_map(self):
         current_loaded_map = self
@@ -266,3 +325,579 @@ class TantegelThroneRoom(object):
         self.left_guard_sprites.draw(surface)
         self.right_guard_sprites.draw(surface)
         self.roaming_guard_sprites.draw(surface)
+
+
+class TantegelCourtyard(object):
+    """
+    This is the lower level of the first map in the game.
+    """
+
+    def __init__(self, map_tiles, hero_images=None, left_guard_images=None, right_guard_images=None,
+                 roaming_guard_images=None):
+
+        self.current_map = TantegelCourtyard
+        self.roaming_guard_sprites = RenderUpdates()
+        self.right_guard_sprites = RenderUpdates()
+        self.left_guard_sprites = RenderUpdates()
+        if hero_images is None:
+            hero_images = []
+        if left_guard_images is None:
+            left_guard_images = []
+        if right_guard_images is None:
+            right_guard_images = []
+        if roaming_guard_images is None:
+            roaming_guard_images = []
+        self.door_group = Group()
+        self.chest_group = Group()
+        self.brick_group = Group()
+        self.wood_group = Group()
+        self.wall_group = Group()
+        self.roof_group = Group()
+        self.grass_group = Group()
+        self.brick_stair_down_group = Group()
+        self.brick_stair_up_group = Group()
+        self.barrier_group = Group()
+        self.weapon_sign_group = Group()
+        self.inn_sign_group = Group()
+        self.castle_group = Group()
+        self.town_group = Group()
+        self.trees_group = Group()
+        self.hills_group = Group()
+        self.mountains_group = Group()
+        self.cave_group = Group()
+        self.grass_stair_down_group = Group()
+        self.sand_group = Group()
+        self.marsh_group = Group()
+        self.bridge_group = Group()
+        self.water_group = Group()
+        self.bottom_coast_group = Group()
+        self.bottom_left_coast_group = Group()
+        self.left_coast_group = Group()
+        self.top_left_coast_group = Group()
+        self.top_coast_group = Group()
+        self.top_right_coast_group = Group()
+        self.right_coast_group = Group()
+        self.bottom_right_coast_group = Group()
+        self.bottom_top_left_coast_group = Group()
+        self.bottom_top_coast_group = Group()
+        self.bottom_top_right_coast_group = Group()
+        self.player = None
+        self.map_tiles = map_tiles
+        self.hero_images = hero_images
+        self.left_guard_images = left_guard_images
+        self.right_guard_images = right_guard_images
+        self.roaming_guard_images = roaming_guard_images
+        self.roaming_characters = []
+        self.center_pt = None
+        self.left_guard = None
+        self.right_guard = None
+        self.roaming_guard = None
+        self.player_sprites = None
+
+        self.layout = tantegel_courtyard
+        self.width = len(self.layout[0] * TILE_SIZE)
+        self.height = len(self.layout * TILE_SIZE)
+
+        self.bgm = join(game.Game.MUSIC_DIR, '03_Dragon_Quest_1_-_Tantegel_Castle_(Lower)_(22khz_mono).ogg')
+        pygame.mixer.music.load(self.bgm)
+        pygame.mixer.music.play(-1)
+
+    def load_map(self):
+        current_loaded_map = self
+
+        x_offset = TILE_SIZE / 2
+        y_offset = TILE_SIZE / 2
+
+        for y in range(len(self.layout)):
+            for x in range(len(self.layout[y])):
+                self.center_pt = [(x * TILE_SIZE) + x_offset,
+                                  (y * TILE_SIZE) + y_offset]
+                if self.layout[y][x] == ROOF:
+                    roof = BaseSprite(self.center_pt, self.map_tiles[ROOF][0])
+                    self.roof_group.add(roof)
+                elif self.layout[y][x] == WALL:
+                    wall = BaseSprite(self.center_pt, self.map_tiles[WALL][0])
+                    self.wall_group.add(wall)
+                elif self.layout[y][x] == WOOD:
+                    wood = BaseSprite(self.center_pt, self.map_tiles[WOOD][0])
+                    self.wood_group.add(wood)
+                elif self.layout[y][x] == BRICK:
+                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
+                    self.brick_group.add(brick)
+                elif self.layout[y][x] == CHEST:
+                    chest = BaseSprite(self.center_pt, self.map_tiles[CHEST][0])
+                    self.chest_group.add(chest)
+                elif self.layout[y][x] == DOOR:
+                    door = BaseSprite(self.center_pt, self.map_tiles[DOOR][0])
+                    self.door_group.add(door)
+                elif self.layout[y][x] == BRICK_STAIR_DOWN:
+                    brick_stair_down = BaseSprite(self.center_pt, self.map_tiles[
+                        BRICK_STAIR_DOWN][0])
+                    self.brick_stair_down_group.add(brick_stair_down)
+                elif self.layout[y][x] == BRICK_STAIR_UP:
+                    brick_stair_up = BaseSprite(self.center_pt, self.map_tiles[
+                        BRICK_STAIR_UP][0])
+                    self.brick_stair_up_group.add(brick_stair_up)
+                elif self.layout[y][x] == BARRIER:
+                    barrier = BaseSprite(self.center_pt, self.map_tiles[
+                        BARRIER][0])
+                    self.barrier_group.add(barrier)
+                elif self.layout[y][x] == WEAPON_SIGN:
+                    weapon_sign = BaseSprite(self.center_pt, self.map_tiles[
+                        WEAPON_SIGN][0])
+                    self.weapon_sign_group.add(weapon_sign)
+                elif self.layout[y][x] == INN_SIGN:
+                    inn_sign = BaseSprite(self.center_pt, self.map_tiles[
+                        INN_SIGN][0])
+                    self.inn_sign_group.add(inn_sign)
+                elif self.layout[y][x] == CASTLE:
+                    castle = BaseSprite(self.center_pt, self.map_tiles[0][1])
+                    self.castle_group.add(castle)
+                elif self.layout[y][x] == TOWN:
+                    town = BaseSprite(self.center_pt, self.map_tiles[1][1])
+                    self.town_group.add(town)
+                elif self.layout[y][x] == GRASS:
+                    grass = BaseSprite(self.center_pt, self.map_tiles[2][1])
+                    self.grass_group.add(grass)
+                elif self.layout[y][x] == TREES:
+                    trees = BaseSprite(self.center_pt, self.map_tiles[3][1])
+                    self.trees_group.add(trees)
+                elif self.layout[y][x] == HILLS:
+                    hills = BaseSprite(self.center_pt, self.map_tiles[4][1])
+                    self.hills_group.add(hills)
+                elif self.layout[y][x] == MOUNTAINS:
+                    mountains = BaseSprite(self.center_pt, self.map_tiles[5][1])
+                    self.mountains_group.add(mountains)
+                elif self.layout[y][x] == CAVE:
+                    cave = BaseSprite(self.center_pt, self.map_tiles[6][1])
+                    self.cave_group.add(cave)
+                elif self.layout[y][x] == GRASS_STAIR_DOWN:
+                    grass_stair_down = BaseSprite(self.center_pt, self.map_tiles[7][1])
+                    self.grass_stair_down_group.add(grass_stair_down)
+                elif self.layout[y][x] == SAND:
+                    sand = BaseSprite(self.center_pt, self.map_tiles[8][1])
+                    self.sand_group.add(sand)
+                elif self.layout[y][x] == MARSH:
+                    marsh = BaseSprite(self.center_pt, self.map_tiles[9][1])
+                    self.marsh_group.add(marsh)
+                elif self.layout[y][x] == BRIDGE:
+                    bridge = BaseSprite(self.center_pt, self.map_tiles[10][1])
+                    self.bridge_group.add(bridge)
+                elif self.layout[y][x] == WATER:
+                    water = BaseSprite(self.center_pt, self.map_tiles[0][2])
+                    self.water_group.add(water)
+                elif self.layout[y][x] == BOTTOM_COAST:
+                    bottom_coast = BaseSprite(self.center_pt, self.map_tiles[1][2])
+                    self.bottom_coast_group.add(bottom_coast)
+                elif self.layout[y][x] == BOTTOM_LEFT_COAST:
+                    bottom_left_coast = BaseSprite(self.center_pt, self.map_tiles[2][2])
+                    self.bottom_left_coast_group.add(bottom_left_coast)
+                elif self.layout[y][x] == LEFT_COAST:
+                    left_coast = BaseSprite(self.center_pt, self.map_tiles[3][2])
+                    self.left_coast_group.add(left_coast)
+                elif self.layout[y][x] == TOP_LEFT_COAST:
+                    top_left_coast = BaseSprite(self.center_pt, self.map_tiles[4][2])
+                    self.top_left_coast_group.add(top_left_coast)
+                elif self.layout[y][x] == TOP_COAST:
+                    top_coast = BaseSprite(self.center_pt, self.map_tiles[5][2])
+                    self.top_coast_group.add(top_coast)
+                elif self.layout[y][x] == TOP_RIGHT_COAST:
+                    top_right_coast = BaseSprite(self.center_pt, self.map_tiles[6][2])
+                    self.top_right_coast_group.add(top_right_coast)
+                elif self.layout[y][x] == RIGHT_COAST:
+                    right_coast = BaseSprite(self.center_pt, self.map_tiles[7][2])
+                    self.right_coast_group.add(right_coast)
+                elif self.layout[y][x] == BOTTOM_RIGHT_COAST:
+                    bottom_right_coast = BaseSprite(self.center_pt, self.map_tiles[8][2])
+                    self.bottom_right_coast_group.add(bottom_right_coast)
+                elif self.layout[y][x] == BOTTOM_TOP_LEFT_COAST:
+                    bottom_top_left_coast = BaseSprite(self.center_pt, self.map_tiles[9][2])
+                    self.bottom_top_left_coast_group.add(bottom_top_left_coast)
+                elif self.layout[y][x] == BOTTOM_TOP_COAST:
+                    bottom_top_coast = BaseSprite(self.center_pt, self.map_tiles[10][2])
+                    self.bottom_top_coast_group.add(bottom_top_coast)
+                elif self.layout[y][x] == BOTTOM_TOP_RIGHT_COAST:
+                    bottom_top_right_coast = BaseSprite(self.center_pt, self.map_tiles[11][2])
+                    self.bottom_top_right_coast_group.add(bottom_top_right_coast)
+
+                elif self.layout[y][x] == HERO:
+                    # Make player start facing up if in Tantegel Throne Room, else face down.
+                    if isinstance(current_loaded_map, TantegelThroneRoom):
+                        self.player_up(self.center_pt)
+                    else:
+                        self.player_down(self.center_pt)
+                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
+                    self.brick_group.add(brick)
+                elif self.layout[y][x] == LEFT_GUARD:
+                    self.left_guard = AnimatedSprite(self.center_pt, 0,
+                                                     self.left_guard_images[0])
+                    self.left_guard_sprites.add(self.left_guard)
+                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
+                    self.brick_group.add(brick)
+                elif self.layout[y][x] == RIGHT_GUARD:
+                    self.right_guard = AnimatedSprite(self.center_pt, 0,
+                                                      self.right_guard_images[0])
+                    self.right_guard_sprites.add(self.right_guard)
+                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
+                    self.brick_group.add(brick)
+                elif self.layout[y][x] == ROAMING_GUARD:
+                    self.roaming_guard = AnimatedSprite(self.center_pt, 0,
+                                                        self.roaming_guard_images[0])
+                    self.roaming_guard_sprites.add(self.roaming_guard)
+                    self.roaming_characters.append(self.roaming_guard)
+                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
+                    self.brick_group.add(brick)
+        self.player_sprites = RenderUpdates(self.player)
+
+    def player_down(self, center_pt):
+        self.player = Player(center_pt, 0,
+                             self.hero_images[0],
+                             self.hero_images[1],
+                             self.hero_images[2],
+                             self.hero_images[3])
+
+    def player_right(self, center_pt):
+        self.player = Player(center_pt, 3,
+                             self.hero_images[0],
+                             self.hero_images[1],
+                             self.hero_images[2],
+                             self.hero_images[3])
+
+    def player_up(self, center_pt):
+        self.player = Player(center_pt, 2,
+                             self.hero_images[0],
+                             self.hero_images[1],
+                             self.hero_images[2],
+                             self.hero_images[3])
+
+    def player_left(self, center_pt):
+        self.player = Player(center_pt, 1,
+                             self.hero_images[0],
+                             self.hero_images[1],
+                             self.hero_images[2],
+                             self.hero_images[3])
+
+    def draw_map(self, surface):
+        """
+        Draw static sprites on the big map.
+        """
+        self.roof_group.draw(surface)
+        self.wall_group.draw(surface)
+        self.wood_group.draw(surface)
+        self.brick_group.draw(surface)
+        self.chest_group.draw(surface)
+        self.door_group.draw(surface)
+        self.grass_group.draw(surface)
+        self.brick_stair_down_group.draw(surface)
+        self.brick_stair_up_group.draw(surface)
+        self.barrier_group.draw(surface)
+        self.weapon_sign_group.draw(surface)
+        self.inn_sign_group.draw(surface)
+        self.castle_group.draw(surface)
+        self.town_group.draw(surface)
+        self.trees_group.draw(surface)
+        self.hills_group.draw(surface)
+        self.mountains_group.draw(surface)
+        self.cave_group.draw(surface)
+        self.grass_stair_down_group.draw(surface)
+        self.sand_group.draw(surface)
+        self.marsh_group.draw(surface)
+        self.bridge_group.draw(surface)
+        self.water_group.draw(surface)
+        self.bottom_coast_group.draw(surface)
+        self.bottom_left_coast_group.draw(surface)
+        self.left_coast_group.draw(surface)
+        self.top_left_coast_group.draw(surface)
+        self.top_coast_group.draw(surface)
+        self.top_right_coast_group.draw(surface)
+        self.right_coast_group.draw(surface)
+        self.bottom_right_coast_group.draw(surface)
+        self.bottom_top_left_coast_group.draw(surface)
+        self.bottom_top_coast_group.draw(surface)
+        self.bottom_top_right_coast_group.draw(surface)
+
+    def clear_sprites(self, screen, surface):
+        self.player_sprites.clear(screen, surface)
+        self.left_guard_sprites.clear(screen, surface)
+        self.right_guard_sprites.clear(screen, surface)
+        self.roaming_guard_sprites.clear(screen, surface)
+
+    def animate(self):
+        self.player.animate()
+        if self.left_guard is not None:
+            self.left_guard.animate()
+        if self.right_guard is not None:
+            self.right_guard.animate()
+        if self.roaming_guard is not None:
+            self.roaming_guard.animate()
+
+    def draw_sprites(self, surface):
+        self.player_sprites.draw(surface)
+        self.left_guard_sprites.draw(surface)
+        self.right_guard_sprites.draw(surface)
+        self.roaming_guard_sprites.draw(surface)
+
+
+class Overworld(object):
+    """
+    Overworld map.
+    """
+
+    def __init__(self, map_tiles, hero_images=None):
+
+        self.current_map = Overworld
+        if hero_images is None:
+            hero_images = []
+        self.door_group = Group()
+        self.chest_group = Group()
+        self.brick_group = Group()
+        self.wood_group = Group()
+        self.wall_group = Group()
+        self.roof_group = Group()
+        self.grass_group = Group()
+        self.brick_stair_down_group = Group()
+        self.brick_stair_up_group = Group()
+        self.barrier_group = Group()
+        self.weapon_sign_group = Group()
+        self.inn_sign_group = Group()
+        self.castle_group = Group()
+        self.town_group = Group()
+        self.trees_group = Group()
+        self.hills_group = Group()
+        self.mountains_group = Group()
+        self.cave_group = Group()
+        self.grass_stair_down_group = Group()
+        self.sand_group = Group()
+        self.marsh_group = Group()
+        self.bridge_group = Group()
+        self.water_group = Group()
+        self.bottom_coast_group = Group()
+        self.bottom_left_coast_group = Group()
+        self.left_coast_group = Group()
+        self.top_left_coast_group = Group()
+        self.top_coast_group = Group()
+        self.top_right_coast_group = Group()
+        self.right_coast_group = Group()
+        self.bottom_right_coast_group = Group()
+        self.bottom_top_left_coast_group = Group()
+        self.bottom_top_coast_group = Group()
+        self.bottom_top_right_coast_group = Group()
+        self.roaming_characters = []
+        self.player = None
+        self.map_tiles = map_tiles
+        self.hero_images = hero_images
+        self.center_pt = None
+        self.player_sprites = None
+
+        self.layout = overworld
+        self.width = len(self.layout[0] * TILE_SIZE)
+        self.height = len(self.layout * TILE_SIZE)
+
+        self.bgm = join(game.Game.MUSIC_DIR, '05 Dragon Quest 1 - Kingdom of Alefgard (22khz mono).ogg')
+        pygame.mixer.music.load(self.bgm)
+        pygame.mixer.music.play(-1)
+
+    def load_map(self):
+        current_loaded_map = self
+
+        x_offset = TILE_SIZE / 2
+        y_offset = TILE_SIZE / 2
+
+        for y in range(len(self.layout)):
+            for x in range(len(self.layout[y])):
+                self.center_pt = [(x * TILE_SIZE) + x_offset,
+                                  (y * TILE_SIZE) + y_offset]
+                if self.layout[y][x] == ROOF:
+                    roof = BaseSprite(self.center_pt, self.map_tiles[ROOF][0])
+                    self.roof_group.add(roof)
+                elif self.layout[y][x] == WALL:
+                    wall = BaseSprite(self.center_pt, self.map_tiles[WALL][0])
+                    self.wall_group.add(wall)
+                elif self.layout[y][x] == WOOD:
+                    wood = BaseSprite(self.center_pt, self.map_tiles[WOOD][0])
+                    self.wood_group.add(wood)
+                elif self.layout[y][x] == BRICK:
+                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
+                    self.brick_group.add(brick)
+                elif self.layout[y][x] == CHEST:
+                    chest = BaseSprite(self.center_pt, self.map_tiles[CHEST][0])
+                    self.chest_group.add(chest)
+                elif self.layout[y][x] == DOOR:
+                    door = BaseSprite(self.center_pt, self.map_tiles[DOOR][0])
+                    self.door_group.add(door)
+                elif self.layout[y][x] == BRICK_STAIR_DOWN:
+                    brick_stair_down = BaseSprite(self.center_pt, self.map_tiles[
+                        BRICK_STAIR_DOWN][0])
+                    self.brick_stair_down_group.add(brick_stair_down)
+                elif self.layout[y][x] == BRICK_STAIR_UP:
+                    brick_stair_up = BaseSprite(self.center_pt, self.map_tiles[
+                        BRICK_STAIR_UP][0])
+                    self.brick_stair_up_group.add(brick_stair_up)
+                elif self.layout[y][x] == BARRIER:
+                    barrier = BaseSprite(self.center_pt, self.map_tiles[
+                        BARRIER][0])
+                    self.barrier_group.add(barrier)
+                elif self.layout[y][x] == WEAPON_SIGN:
+                    weapon_sign = BaseSprite(self.center_pt, self.map_tiles[
+                        WEAPON_SIGN][0])
+                    self.weapon_sign_group.add(weapon_sign)
+                elif self.layout[y][x] == INN_SIGN:
+                    inn_sign = BaseSprite(self.center_pt, self.map_tiles[
+                        INN_SIGN][0])
+                    self.inn_sign_group.add(inn_sign)
+                elif self.layout[y][x] == CASTLE:
+                    castle = BaseSprite(self.center_pt, self.map_tiles[0][1])
+                    self.castle_group.add(castle)
+                elif self.layout[y][x] == TOWN:
+                    town = BaseSprite(self.center_pt, self.map_tiles[1][1])
+                    self.town_group.add(town)
+                elif self.layout[y][x] == GRASS:
+                    grass = BaseSprite(self.center_pt, self.map_tiles[2][1])
+                    self.grass_group.add(grass)
+                elif self.layout[y][x] == TREES:
+                    trees = BaseSprite(self.center_pt, self.map_tiles[3][1])
+                    self.trees_group.add(trees)
+                elif self.layout[y][x] == HILLS:
+                    hills = BaseSprite(self.center_pt, self.map_tiles[4][1])
+                    self.hills_group.add(hills)
+                elif self.layout[y][x] == MOUNTAINS:
+                    mountains = BaseSprite(self.center_pt, self.map_tiles[5][1])
+                    self.mountains_group.add(mountains)
+                elif self.layout[y][x] == CAVE:
+                    cave = BaseSprite(self.center_pt, self.map_tiles[6][1])
+                    self.cave_group.add(cave)
+                elif self.layout[y][x] == GRASS_STAIR_DOWN:
+                    grass_stair_down = BaseSprite(self.center_pt, self.map_tiles[7][1])
+                    self.grass_stair_down_group.add(grass_stair_down)
+                elif self.layout[y][x] == SAND:
+                    sand = BaseSprite(self.center_pt, self.map_tiles[8][1])
+                    self.sand_group.add(sand)
+                elif self.layout[y][x] == MARSH:
+                    marsh = BaseSprite(self.center_pt, self.map_tiles[9][1])
+                    self.marsh_group.add(marsh)
+                elif self.layout[y][x] == BRIDGE:
+                    bridge = BaseSprite(self.center_pt, self.map_tiles[10][1])
+                    self.bridge_group.add(bridge)
+                elif self.layout[y][x] == WATER:
+                    water = BaseSprite(self.center_pt, self.map_tiles[0][2])
+                    self.water_group.add(water)
+                elif self.layout[y][x] == BOTTOM_COAST:
+                    bottom_coast = BaseSprite(self.center_pt, self.map_tiles[1][2])
+                    self.bottom_coast_group.add(bottom_coast)
+                elif self.layout[y][x] == BOTTOM_LEFT_COAST:
+                    bottom_left_coast = BaseSprite(self.center_pt, self.map_tiles[2][2])
+                    self.bottom_left_coast_group.add(bottom_left_coast)
+                elif self.layout[y][x] == LEFT_COAST:
+                    left_coast = BaseSprite(self.center_pt, self.map_tiles[3][2])
+                    self.left_coast_group.add(left_coast)
+                elif self.layout[y][x] == TOP_LEFT_COAST:
+                    top_left_coast = BaseSprite(self.center_pt, self.map_tiles[4][2])
+                    self.top_left_coast_group.add(top_left_coast)
+                elif self.layout[y][x] == TOP_COAST:
+                    top_coast = BaseSprite(self.center_pt, self.map_tiles[5][2])
+                    self.top_coast_group.add(top_coast)
+                elif self.layout[y][x] == TOP_RIGHT_COAST:
+                    top_right_coast = BaseSprite(self.center_pt, self.map_tiles[6][2])
+                    self.top_right_coast_group.add(top_right_coast)
+                elif self.layout[y][x] == RIGHT_COAST:
+                    right_coast = BaseSprite(self.center_pt, self.map_tiles[7][2])
+                    self.right_coast_group.add(right_coast)
+                elif self.layout[y][x] == BOTTOM_RIGHT_COAST:
+                    bottom_right_coast = BaseSprite(self.center_pt, self.map_tiles[8][2])
+                    self.bottom_right_coast_group.add(bottom_right_coast)
+                elif self.layout[y][x] == BOTTOM_TOP_LEFT_COAST:
+                    bottom_top_left_coast = BaseSprite(self.center_pt, self.map_tiles[9][2])
+                    self.bottom_top_left_coast_group.add(bottom_top_left_coast)
+                elif self.layout[y][x] == BOTTOM_TOP_COAST:
+                    bottom_top_coast = BaseSprite(self.center_pt, self.map_tiles[10][2])
+                    self.bottom_top_coast_group.add(bottom_top_coast)
+                elif self.layout[y][x] == BOTTOM_TOP_RIGHT_COAST:
+                    bottom_top_right_coast = BaseSprite(self.center_pt, self.map_tiles[11][2])
+                    self.bottom_top_right_coast_group.add(bottom_top_right_coast)
+
+                elif self.layout[y][x] == HERO:
+                    # Make player start facing up if in Tantegel Throne Room, else face down.
+                    if isinstance(current_loaded_map, TantegelThroneRoom):
+                        self.player_up(self.center_pt)
+                    else:
+                        self.player_down(self.center_pt)
+                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
+                    self.brick_group.add(brick)
+
+        self.player_sprites = RenderUpdates(self.player)
+
+    def player_down(self, center_pt):
+        self.player = Player(center_pt, 0,
+                             self.hero_images[0],
+                             self.hero_images[1],
+                             self.hero_images[2],
+                             self.hero_images[3])
+
+    def player_right(self, center_pt):
+        self.player = Player(center_pt, 3,
+                             self.hero_images[0],
+                             self.hero_images[1],
+                             self.hero_images[2],
+                             self.hero_images[3])
+
+    def player_up(self, center_pt):
+        self.player = Player(center_pt, 2,
+                             self.hero_images[0],
+                             self.hero_images[1],
+                             self.hero_images[2],
+                             self.hero_images[3])
+
+    def player_left(self, center_pt):
+        self.player = Player(center_pt, 1,
+                             self.hero_images[0],
+                             self.hero_images[1],
+                             self.hero_images[2],
+                             self.hero_images[3])
+
+    def draw_map(self, surface):
+        """
+        Draw static sprites on the big map.
+        """
+        self.roof_group.draw(surface)
+        self.wall_group.draw(surface)
+        self.wood_group.draw(surface)
+        self.brick_group.draw(surface)
+        self.chest_group.draw(surface)
+        self.door_group.draw(surface)
+        self.grass_group.draw(surface)
+        self.brick_stair_down_group.draw(surface)
+        self.brick_stair_up_group.draw(surface)
+        self.barrier_group.draw(surface)
+        self.weapon_sign_group.draw(surface)
+        self.inn_sign_group.draw(surface)
+        self.castle_group.draw(surface)
+        self.town_group.draw(surface)
+        self.trees_group.draw(surface)
+        self.hills_group.draw(surface)
+        self.mountains_group.draw(surface)
+        self.cave_group.draw(surface)
+        self.grass_stair_down_group.draw(surface)
+        self.sand_group.draw(surface)
+        self.marsh_group.draw(surface)
+        self.bridge_group.draw(surface)
+        self.water_group.draw(surface)
+        self.bottom_coast_group.draw(surface)
+        self.bottom_left_coast_group.draw(surface)
+        self.left_coast_group.draw(surface)
+        self.top_left_coast_group.draw(surface)
+        self.top_coast_group.draw(surface)
+        self.top_right_coast_group.draw(surface)
+        self.right_coast_group.draw(surface)
+        self.bottom_right_coast_group.draw(surface)
+        self.bottom_top_left_coast_group.draw(surface)
+        self.bottom_top_coast_group.draw(surface)
+        self.bottom_top_right_coast_group.draw(surface)
+
+    def clear_sprites(self, screen, surface):
+        self.player_sprites.clear(screen, surface)
+
+    def animate(self):
+        self.player.animate()
+
+    def draw_sprites(self, surface):
+        self.player_sprites.draw(surface)

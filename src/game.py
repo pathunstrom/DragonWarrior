@@ -24,6 +24,7 @@ class Game(object):
     WIN_WIDTH = NES_RES[0] * SCALE
     WIN_HEIGHT = NES_RES[1] * SCALE
     DATA_DIR = join(pardir, 'data')
+    MUSIC_DIR = join(DATA_DIR, 'music')
     MAP_TILES_PATH = join(DATA_DIR, 'tileset.png')
     UNARMED_HERO_PATH = join(DATA_DIR, 'unarmed_hero.png')
     KING_LORIK_PATH = join(DATA_DIR, 'king_lorik.png')
@@ -45,12 +46,11 @@ class Game(object):
         set_caption(self.GAME_TITLE)
         self.clock = Clock()
         self.last_roaming_character_clock_check = get_ticks()
-        self.last_sprite_movement_clock_check = get_ticks()
         self.roaming_character_go_cooldown = 3000
         self.sprite_movement_wait_period = 10
-        if src.maps.current_map is None:
-            src.maps.current_map = src.maps.TantegelThroneRoom
-            self.player = None
+        #if src.maps.current_map is None:
+        #    src.maps.current_map = src.maps.TantegelThroneRoom
+        #    self.player = None
         self.map_tiles = []
         self.map_tilesheet = None
         self.unarmed_hero_sheet = None
@@ -69,50 +69,6 @@ class Game(object):
         self.current_map = None
         self.background = None
         self.load_images()
-
-    def main(self):
-        self.load_current_map()
-
-        # Move to map class
-        # self.init_groups()
-        # self.current_map = tantegel_throne_room
-        # self.load_map()
-
-        # Make the big scrollable map
-        self.make_big_map()
-
-        # self.current_map.draw_map(self.big_map)
-        # self.current_map.draw_sprites(self.big_map)
-
-        self.background = Surface(self.screen.get_size()).convert()
-        self.background.fill(self.BACK_FILL_COLOR)
-
-        self.current_map.roaming_guard.down_images = self.roaming_guard_images[0]
-        self.current_map.roaming_guard.left_images = self.roaming_guard_images[1]
-        self.current_map.roaming_guard.up_images = self.roaming_guard_images[2]
-        self.current_map.roaming_guard.right_images = self.roaming_guard_images[3]
-        camera_pos = self.current_map.center_pt
-
-        while True:
-            self.current_map.draw_map(self.big_map)
-            self.current_map.clear_sprites(self.screen, self.background)
-            self.clock.tick(self.FPS)
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    sys.exit()
-            # TODO: disable moving if a dialog box is open.
-            self.current_map.player.move(camera_pos)
-            self.move_roaming_character()
-            self.background = self.big_map.subsurface(self.corner_point[0],
-                                                      self.corner_point[1],
-                                                      self.WIN_WIDTH,
-                                                      self.WIN_HEIGHT).convert()
-            self.current_map.animate()
-            self.current_map.draw_sprites(self.background)
-
-            self.screen.blit(self.background, self.ORIGIN)
-            flip()
 
     def move_roaming_character(self):
         # TODO: extend roaming characters beyond just the roaming guard.
@@ -161,12 +117,17 @@ class Game(object):
         self.big_map = Surface((self.big_map_width, self.big_map_height)).convert()
         self.big_map.fill(self.BACK_FILL_COLOR)
 
-    def load_current_map(self):
-        self.current_map = src.maps.TantegelThroneRoom(self.player, self.map_tiles,
-                                                       self.unarmed_hero_images,
-                                                       self.king_lorik_images, self.left_guard_images,
-                                                       self.right_guard_images,
-                                                       self.roaming_guard_images)
+    def load_current_map(self, current_map):
+        if current_map == src.maps.TantegelThroneRoom:
+            self.current_map = src.maps.TantegelThroneRoom(self.map_tiles, self.unarmed_hero_images,
+                                                           self.king_lorik_images, self.left_guard_images,
+                                                           self.right_guard_images, self.roaming_guard_images)
+        elif current_map == src.maps.TantegelCourtyard:
+            self.current_map = src.maps.TantegelCourtyard(self.map_tiles, self.unarmed_hero_images,
+                                                          self.left_guard_images,
+                                                          self.right_guard_images, self.roaming_guard_images)
+        elif current_map == src.maps.Overworld:
+            self.current_map = src.maps.Overworld(self.map_tiles, self.unarmed_hero_images)
         self.current_map.load_map()
 
     def load_images(self):
@@ -271,8 +232,57 @@ class Game(object):
 
         return facing_down, facing_left, facing_up, facing_right
 
-    def run(self):
-        pass
+    def main(self):
+        # This can be changed to a different map for debugging purposes.
+        self.load_current_map(src.maps.Overworld)
+        player = self.current_map.player
+        camera_pos = (0, 0)
+
+        # Move to map class
+        # self.init_groups()
+        # self.current_map = tantegel_throne_room
+        # self.load_map()
+
+        # Make the big scrollable map
+        self.make_big_map()
+
+        # self.current_map.draw_map(self.big_map)
+        # self.current_map.draw_sprites(self.big_map)
+
+        self.background = Surface(self.screen.get_size()).convert()
+        self.background.fill(self.BACK_FILL_COLOR)
+        # TODO: Handle maps that don't have roaming characters better.
+        if self.current_map.roaming_characters:
+            self.assign_roaming_guard_images()
+
+        while True:
+            self.current_map.draw_map(self.big_map)
+            self.current_map.clear_sprites(self.screen, self.background)
+            self.clock.tick(self.FPS)
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+            camera_pos = player.move(camera_pos, self.current_map)
+            # TODO: disable moving if a dialog box is open.
+            print(self.current_map.player.move(camera_pos, self.current_map))
+            self.move_roaming_character()
+            self.background = self.big_map.subsurface(self.corner_point[0], self.corner_point[1], self.WIN_WIDTH,
+                                                      self.WIN_HEIGHT).convert()
+            self.current_map.animate()
+            self.current_map.draw_sprites(self.background)
+            self.screen.blit(self.background, self.ORIGIN)
+            self.screen.scroll(dx=camera_pos[0], dy=camera_pos[1])
+            self.big_map = Surface((self.big_map_width, self.big_map_height)).convert()
+            self.big_map.fill(self.BACK_FILL_COLOR)
+            # self.screen.blit(self.background, self.ORIGIN)
+            flip()
+
+    def assign_roaming_guard_images(self):
+        self.current_map.roaming_guard.down_images = self.roaming_guard_images[0]
+        self.current_map.roaming_guard.left_images = self.roaming_guard_images[1]
+        self.current_map.roaming_guard.up_images = self.roaming_guard_images[2]
+        self.current_map.roaming_guard.right_images = self.roaming_guard_images[3]
 
 
 if __name__ == "__main__":
