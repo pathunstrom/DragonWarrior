@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a2e3df33-68d1-41dd-870c-97b1a819b490" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data/music/03_Dragon_Quest_1_-_Tantegel_Castle_(Lower)_(22khz_mono).ogg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/music/05 Dragon Quest 1 - Kingdom of Alefgard (22khz mono).ogg" afterDir="false" />
+    <list default="true" id="a2e3df33-68d1-41dd-870c-97b1a819b490" name="Default Changelist" comment="Handled collision with impassable objects.">
+      <change afterPath="$PROJECT_DIR$/data/music/01 Dragon Quest 1 - Intro ~ Overture (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/02 Dragon Quest 1 - Tantegel Castle (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/03 Dragon Quest 1 - Tantegel Castle (Lower) (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/04 Dragon Quest 1 - Peaceful Village (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/06 Dragon Quest 1 - Dark Dungeon - Floor 1 (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/14 Dragon Quest 1 - A Monster Draws Near (16khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/20 Dragon Quest 1 - Thou Hast Died (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/21 Dragon Quest 1 - Special Item (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/25 Dragon Quest 1 - Victory (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/36 Dragon Quest 1 - Attack (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/music/45 Dragon Quest 1 - Open Door (22khz mono).ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/29 Dragon Quest 1 - Stairs Up (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/30 Dragon Quest 1 - Stairs Down (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/32 Dragon Quest 1 - Menu Button (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/33 Dragon Quest 1 - Confirmation (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/34 Dragon Quest 1 - Hit (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/35 Dragon Quest 1 - Excellent Move (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/37 Dragon Quest 1 - Receive Damage (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/39 Dragon Quest 1 - Prepare to Attack (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/40 Dragon Quest 1 - Missed! (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/41 Dragon Quest 1 - Missed! (2) (22khz mono).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/sfx/42 Dragon Quest 1 - Bumping into Walls (22khz mono).wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/aliens.py" beforeDir="false" afterPath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/aliens.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/chimp.py" beforeDir="false" afterPath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/chimp.py" afterDir="false" />
@@ -11,9 +31,7 @@
       <change beforePath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/mask.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/moveit.py" beforeDir="false" afterPath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/moveit.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/oldalien.py" beforeDir="false" afterPath="$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/oldalien.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg" beforeDir="false" afterPath="$PROJECT_DIR$/data/music/02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/maps.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/maps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/player.py" afterDir="false" />
     </list>
@@ -28,37 +46,45 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="590">
-              <caret line="268" column="41" selection-start-line="268" selection-start-column="41" selection-end-line="268" selection-end-column="41" />
+            <state relative-caret-position="190">
+              <caret line="200" column="49" selection-start-line="200" selection-start-column="49" selection-end-line="200" selection-end-column="49" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/maps.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2208">
-              <caret line="697" column="8" selection-start-line="697" selection-start-column="8" selection-end-line="697" selection-end-column="8" />
-              <folding>
-                <element signature="e#3131#5862#0" />
-                <element signature="e#8419#16549#0" />
-                <element signature="e#16589#31816#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/maps.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="223">
+              <caret line="214" column="77" selection-start-line="214" selection-start-column="77" selection-end-line="214" selection-end-column="77" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+                <element signature="e#3131#5862#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
+            <state relative-caret-position="191">
+              <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#0#24#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/animated_sprite.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="47" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -74,18 +100,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>center</find>
-      <find>blit</find>
-      <find>player</find>
-      <find>self.current_map.player</find>
-      <find>clock</find>
-      <find>= Clock</find>
-      <find>00</find>
-      <find>load_map</find>
-      <find>map_tile</find>
-      <find>get_size</find>
-      <find>grass</find>
-      <find>town = BaseSprite(self.center_pt, self.map_tiles[1][1])</find>
       <find>map_tilesheet</find>
       <find>layout</find>
       <find>roaming</find>
@@ -101,9 +115,21 @@
       <find>roaming_</find>
       <find>roaming_c</find>
       <find>overworld</find>
-      <find>current_map</find>
       <find>current</find>
       <find>move</find>
+      <find>print(</find>
+      <find>self.current_map.player.move(camera_pos, self.current_map</find>
+      <find>Player(</find>
+      <find>.move</find>
+      <find>current_map</find>
+      <find>music</find>
+      <find>bgm</find>
+      <find>scroll</find>
+      <find>tantegel</find>
+      <find>Tant</find>
+      <find>urrently</find>
+      <find>brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])</find>
+      <find>brick</find>
     </findStrings>
     <replaceStrings>
       <replace>load_extended(</replace>
@@ -131,18 +157,18 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/base_sprite.py" />
         <option value="$PROJECT_DIR$/src/music.py" />
-        <option value="$PROJECT_DIR$/src/animated_sprite.py" />
         <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/src/animated_sprite.py" />
         <option value="$PROJECT_DIR$/src/game.py" />
         <option value="$PROJECT_DIR$/src/maps.py" />
         <option value="$PROJECT_DIR$/src/player.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="78" />
-    <option name="y" value="168" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="128" />
+    <option name="y" value="50" />
     <option name="width" value="1358" />
     <option name="height" value="711" />
   </component>
@@ -152,6 +178,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,7 +195,7 @@
               <item name="DragonWarrior_clone" type="b2602c69:ProjectViewProjectNode" />
               <item name="DragonWarrior_clone" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
-              <item name="music" type="462c0819:PsiDirectoryNode" />
+              <item name="sfx" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DragonWarrior_clone" type="b2602c69:ProjectViewProjectNode" />
@@ -184,7 +211,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -204,12 +230,14 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/data/music" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data/sfx" />
       <recent name="$PROJECT_DIR$/data/music" />
       <recent name="$PROJECT_DIR$/data" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data/music" />
+      <recent name="$PROJECT_DIR$/data/sfx" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -363,10 +391,17 @@
       <option name="project" value="LOCAL" />
       <updated>1557856189396</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added Tantegel Courtyard and Overworld.">
+      <created>1558590148918</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1558590148918</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
-  <component name="TodoView" selected-index="4">
+  <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -376,19 +411,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="78" y="168" width="1358" height="711" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.35676888" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2875226" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection Results" weight="0.32959184" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.37653062" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49125978" visible="true" weight="0.35379645" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49125978" weight="0.34081632" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3469388" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32959184" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3290398" />
+      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.20816326" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.327551" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" content_ui="combo" id="Terminal" order="9" weight="0.24707259" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3290398" />
@@ -426,10 +462,32 @@
     <MESSAGE value="Commit before implementation of scrolling map feature." />
     <MESSAGE value="Minor cleanup." />
     <MESSAGE value="Minor cleanup part two." />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor cleanup part two." />
+    <MESSAGE value="Added Tantegel Courtyard and Overworld." />
+    <MESSAGE value="Handled collision with impassable objects." />
+    <option name="LAST_COMMIT_MESSAGE" value="Handled collision with impassable objects." />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>current_map.layout[(self.hero_current_location[0] + 1)][self.hero_current_location[1]]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>current_map.layout[(self.hero_current_location[0] + 1)][self.hero_current_location[1]] == any(maps.impassable_objects)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>current_map.layout[0][1]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>current_map.layout[0]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>self.current_map.roaming_characters</expression-string>
         <language-id>Python</language-id>
@@ -452,32 +510,6 @@
       </expression>
       <expression>
         <expression-string>game.map_tiles</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>for item in self.map_tiles:
-    print(item)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>self.WIN_HEIGHT - 48</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>self.WIN_HEIGHT - 672</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>self.WIN_HEIGHT</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>(self.WIN_HEIGHT // 23) * 1.55</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -552,13 +584,6 @@
     <entry file="file://$PROJECT_DIR$/data/left_guard.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/ntpath.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2019.1/python_stubs/-365484198/pygame/_freetype.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -620,13 +645,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="181" column="18" selection-start-line="181" selection-start-column="18" selection-end-line="181" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pip/_vendor/distlib/resources.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
@@ -638,13 +656,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/animated_sprite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="45" column="34" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -665,13 +676,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/roaming_guard.png">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/sprite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="378" selection-start-line="378" selection-end-line="378" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -694,34 +698,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game.py">
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="590">
-          <caret line="268" column="41" selection-start-line="268" selection-start-column="41" selection-end-line="268" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-990">
+          <caret line="181" column="14" selection-start-line="181" selection-start-column="14" selection-end-line="181" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/maps.py">
+    <entry file="file://$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/sprite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2208">
-          <caret line="697" column="8" selection-start-line="697" selection-start-column="8" selection-end-line="697" selection-end-column="8" />
+        <state relative-caret-position="203">
+          <caret line="121" selection-start-line="121" selection-end-line="121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/ntpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="74" column="4" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DragonWarrior_clone/lib/python3.7/site-packages/pygame/examples/moveit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-111">
+          <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/animated_sprite.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="47" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2019.1/python_stubs/-365484198/pygame/transform.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="65" column="4" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="200" column="49" selection-start-line="200" selection-start-column="49" selection-end-line="200" selection-end-column="49" />
           <folding>
-            <element signature="e#3131#5862#0" />
-            <element signature="e#8419#16549#0" />
-            <element signature="e#16589#31816#0" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
+        <state relative-caret-position="191">
+          <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/maps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="214" column="77" selection-start-line="214" selection-start-column="77" selection-end-line="214" selection-end-column="77" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#3131#5862#0" />
           </folding>
         </state>
       </provider>

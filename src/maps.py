@@ -51,7 +51,10 @@ LEFT_GUARD = 36
 RIGHT_GUARD = 37
 ROAMING_GUARD = 38
 
-impassable_objects = [ROOF, WALL, WOOD, DOOR, BARRIER, WEAPON_SIGN, INN_SIGN, MOUNTAINS, WATER, BOTTOM_COAST, BOTTOM_LEFT_COAST, LEFT_COAST, TOP_LEFT_COAST, TOP_COAST, TOP_RIGHT_COAST, RIGHT_COAST, BOTTOM_RIGHT_COAST, BOTTOM_TOP_LEFT_COAST, BOTTOM_TOP_COAST, BOTTOM_TOP_RIGHT_COAST, KING_LORIK, LEFT_GUARD, RIGHT_GUARD, ROAMING_GUARD]
+impassable_objects = [ROOF, WALL, WOOD, DOOR, BARRIER, WEAPON_SIGN, INN_SIGN, MOUNTAINS, WATER, BOTTOM_COAST,
+                      BOTTOM_LEFT_COAST, LEFT_COAST, TOP_LEFT_COAST, TOP_COAST, TOP_RIGHT_COAST, RIGHT_COAST,
+                      BOTTOM_RIGHT_COAST, BOTTOM_TOP_LEFT_COAST, BOTTOM_TOP_COAST, BOTTOM_TOP_RIGHT_COAST, KING_LORIK,
+                      LEFT_GUARD, RIGHT_GUARD]
 
 tantegel_throne_room = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -189,6 +192,7 @@ class TantegelThroneRoom(object):
         self.right_guard = None
         self.roaming_guard = None
         self.player_sprites = None
+        self.last_map = None
 
         self.layout = tantegel_throne_room
         self.width = len(self.layout[0] * TILE_SIZE)
@@ -207,6 +211,8 @@ class TantegelThroneRoom(object):
             for x in range(len(self.layout[y])):
                 self.center_pt = [(x * TILE_SIZE) + x_offset,
                                   (y * TILE_SIZE) + y_offset]
+                brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
+                brick_stair_down = BaseSprite(self.center_pt, self.map_tiles[BRICK_STAIR_DOWN][0])
                 if self.layout[y][x] == ROOF:
                     roof = BaseSprite(self.center_pt, self.map_tiles[ROOF][0])
                     self.roof_group.add(roof)
@@ -217,7 +223,6 @@ class TantegelThroneRoom(object):
                     wood = BaseSprite(self.center_pt, self.map_tiles[WOOD][0])
                     self.wood_group.add(wood)
                 elif self.layout[y][x] == BRICK:
-                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
                     self.brick_group.add(brick)
                 elif self.layout[y][x] == CHEST:
                     chest = BaseSprite(self.center_pt, self.map_tiles[CHEST][0])
@@ -226,8 +231,6 @@ class TantegelThroneRoom(object):
                     door = BaseSprite(self.center_pt, self.map_tiles[DOOR][0])
                     self.door_group.add(door)
                 elif self.layout[y][x] == BRICK_STAIR_DOWN:
-                    brick_stair_down = BaseSprite(self.center_pt, self.map_tiles[
-                        BRICK_STAIR_DOWN][0])
                     self.brick_stair_down_group.add(brick_stair_down)
                 elif self.layout[y][x] == HERO:
                     # Make player start facing up if in Tantegel Throne Room, else face down.
@@ -235,32 +238,30 @@ class TantegelThroneRoom(object):
                         self.player_up(self.center_pt)
                     else:
                         self.player_down(self.center_pt)
-                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
-                    self.brick_group.add(brick)
+                    if self.last_map is None:
+                        self.brick_group.add(brick)
+                    elif self.last_map == TantegelCourtyard:
+                        self.brick_stair_down_group.add(brick_stair_down)
                 elif self.layout[y][x] == KING_LORIK:
                     self.king_lorik = AnimatedSprite(self.center_pt, 0,
                                                      self.king_lorik_images[0])
                     self.king_lorik_sprites.add(self.king_lorik)
-                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
                     self.brick_group.add(brick)
                 elif self.layout[y][x] == LEFT_GUARD:
                     self.left_guard = AnimatedSprite(self.center_pt, 0,
                                                      self.left_guard_images[0])
                     self.left_guard_sprites.add(self.left_guard)
-                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
                     self.brick_group.add(brick)
                 elif self.layout[y][x] == RIGHT_GUARD:
                     self.right_guard = AnimatedSprite(self.center_pt, 0,
                                                       self.right_guard_images[0])
                     self.right_guard_sprites.add(self.right_guard)
-                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
                     self.brick_group.add(brick)
                 elif self.layout[y][x] == ROAMING_GUARD:
                     self.roaming_guard = AnimatedSprite(self.center_pt, 0,
                                                         self.roaming_guard_images[0])
                     self.roaming_guard_sprites.add(self.roaming_guard)
                     self.roaming_characters.append(self.roaming_guard)
-                    brick = BaseSprite(self.center_pt, self.map_tiles[BRICK][0])
                     self.brick_group.add(brick)
 
         self.player_sprites = RenderUpdates(self.player)

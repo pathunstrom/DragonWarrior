@@ -25,6 +25,7 @@ class Game(object):
     WIN_HEIGHT = NES_RES[1] * SCALE
     DATA_DIR = join(pardir, 'data')
     MUSIC_DIR = join(DATA_DIR, 'music')
+    SFX_DIR = join(DATA_DIR, 'sfx')
     MAP_TILES_PATH = join(DATA_DIR, 'tileset.png')
     UNARMED_HERO_PATH = join(DATA_DIR, 'unarmed_hero.png')
     KING_LORIK_PATH = join(DATA_DIR, 'king_lorik.png')
@@ -48,7 +49,7 @@ class Game(object):
         self.last_roaming_character_clock_check = get_ticks()
         self.roaming_character_go_cooldown = 3000
         self.sprite_movement_wait_period = 10
-        #if src.maps.current_map is None:
+        # if src.maps.current_map is None:
         #    src.maps.current_map = src.maps.TantegelThroneRoom
         #    self.player = None
         self.map_tiles = []
@@ -152,7 +153,6 @@ class Game(object):
                                          SCALE,
                                          self.unarmed_hero_sheet.get_height() *
                                          SCALE))
-
         self.king_lorik_sheet = scale(self.king_lorik_sheet,
                                       (self.king_lorik_sheet.get_width() * SCALE,
                                        self.king_lorik_sheet.get_height() * SCALE))
@@ -254,7 +254,7 @@ class Game(object):
         # TODO: Handle maps that don't have roaming characters better.
         if self.current_map.roaming_characters:
             self.assign_roaming_guard_images()
-
+        src.player.Player.get_hero_start_location(self.current_map.player, self.current_map)
         while True:
             self.current_map.draw_map(self.big_map)
             self.current_map.clear_sprites(self.screen, self.background)
@@ -265,7 +265,7 @@ class Game(object):
                     sys.exit()
             camera_pos = player.move(camera_pos, self.current_map)
             # TODO: disable moving if a dialog box is open.
-            print(self.current_map.player.move(camera_pos, self.current_map))
+            # print(self.current_map.player.move(camera_pos, self.current_map))
             self.move_roaming_character()
             self.background = self.big_map.subsurface(self.corner_point[0], self.corner_point[1], self.WIN_WIDTH,
                                                       self.WIN_HEIGHT).convert()
