@@ -3,8 +3,7 @@ import sys
 from os import pardir
 from os.path import join
 
-import pygame
-from pygame import init, Surface, QUIT
+from pygame import init, Surface, QUIT, event, quit
 from pygame.display import set_mode, set_caption, flip
 from pygame.image import load_extended
 from pygame.time import Clock
@@ -171,7 +170,7 @@ class Game(object):
 
         self.parse_map_tiles()
 
-        # Get the images for the initial hero sprites
+        # Get the images for the initial hero npc_sprites
         self.unarmed_hero_images = self.parse_animated_spritesheet(
             self.unarmed_hero_sheet, is_roaming=True)
 
@@ -234,7 +233,7 @@ class Game(object):
 
     def main(self):
         # This can be changed to a different map for debugging purposes.
-        self.load_current_map(src.maps.Overworld)
+        self.load_current_map(src.maps.TantegelThroneRoom)
         player = self.current_map.player
         camera_pos = (0, 0)
 
@@ -256,27 +255,30 @@ class Game(object):
             self.assign_roaming_guard_images()
         src.player.Player.get_hero_start_location(self.current_map.player, self.current_map)
         while True:
-            self.current_map.draw_map(self.big_map)
-            self.current_map.clear_sprites(self.screen, self.background)
-            self.clock.tick(self.FPS)
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
+            for game_event in event.get():
+                if game_event.type == QUIT:
+                    quit()
                     sys.exit()
             camera_pos = player.move(camera_pos, self.current_map)
+            print(camera_pos)
+            self.big_map = Surface((self.big_map_width, self.big_map_height)).convert()
+            self.big_map.fill(self.BACK_FILL_COLOR)
+            self.current_map.draw_map(self.big_map)
+            self.background = self.big_map.subsurface(self.corner_point[0], self.corner_point[1], self.WIN_WIDTH,
+                                                      self.WIN_HEIGHT).convert()
+            self.current_map.clear_sprites(self.screen, self.background)
+
             # TODO: disable moving if a dialog box is open.
             # print(self.current_map.player.move(camera_pos, self.current_map))
             self.move_roaming_character()
-            self.background = self.big_map.subsurface(self.corner_point[0], self.corner_point[1], self.WIN_WIDTH,
-                                                      self.WIN_HEIGHT).convert()
             self.current_map.animate()
             self.current_map.draw_sprites(self.background)
+            # self.screen.blit(self.background, self.ORIGIN)
             self.screen.blit(self.background, self.ORIGIN)
             self.screen.scroll(dx=camera_pos[0], dy=camera_pos[1])
-            self.big_map = Surface((self.big_map_width, self.big_map_height)).convert()
-            self.big_map.fill(self.BACK_FILL_COLOR)
-            # self.screen.blit(self.background, self.ORIGIN)
             flip()
+            self.clock.tick(self.FPS)
+            # self.screen.blit(self.background, self.ORIGIN)
 
     def assign_roaming_guard_images(self):
         self.current_map.roaming_guard.down_images = self.roaming_guard_images[0]

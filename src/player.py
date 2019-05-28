@@ -46,7 +46,7 @@ class Player(AnimatedSprite):
         # TODO: Smooth out movement.
         pos_x, pos_y = camera_pos
         # For debugging
-        print("Currently at: " + str(self.hero_current_location))
+        #print("Currently at: " + str(self.hero_current_location))
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN]:
             self.direction = AnimatedSprite.DOWN
@@ -102,23 +102,23 @@ class Player(AnimatedSprite):
             pos_x = camera_pos[0]  # Reset Camera Pos Coord
             self.hero_current_location = 0, self.hero_current_location[1]
             self.bump_sound.play()
-        elif self.rect.x > int(src.game.Game.WIN_WIDTH - ((src.game.Game.WIN_WIDTH // 24) * 1.5)):
-            self.rect.x = int(src.game.Game.WIN_WIDTH - ((src.game.Game.WIN_WIDTH // 24) * 1.5))
-            pos_x = camera_pos[0]
-            self.hero_current_location = self.hero_current_location[0] - 1, self.hero_current_location[1]
-            self.bump_sound.play()
+        #elif self.rect.x > int(src.game.Game.WIN_WIDTH - ((src.game.Game.WIN_WIDTH // 24) * 1.5)):
+        #    self.rect.x = int(src.game.Game.WIN_WIDTH - ((src.game.Game.WIN_WIDTH // 24) * 1.5))
+        #    pos_x = camera_pos[0]
+        #    self.hero_current_location = self.hero_current_location[0] - 1, self.hero_current_location[1]
+        #    self.bump_sound.play()
         if self.rect.y < 0:
             self.rect.y = 0
             pos_y = camera_pos[1]
             self.hero_current_location = self.hero_current_location[0], 0
             self.bump_sound.play()
-        elif self.rect.y > src.game.Game.WIN_HEIGHT - 48:
-            self.rect.y = src.game.Game.WIN_HEIGHT - 48
-            self.hero_current_location = self.hero_current_location[0], self.hero_current_location[1] - 1
-            self.bump_sound.play()
+        #elif self.rect.y > src.game.Game.WIN_HEIGHT - 48:
+        #    self.rect.y = src.game.Game.WIN_HEIGHT - 48
+        #    self.hero_current_location = self.hero_current_location[0], self.hero_current_location[1] - 1
+        #    self.bump_sound.play()
         # print(self.hero_current_location)
-        elif self.rect.y > src.game.Game.WIN_HEIGHT - ((src.game.Game.WIN_HEIGHT // 23) * 1.5):
-            self.rect.y = src.game.Game.WIN_HEIGHT - ((src.game.Game.WIN_HEIGHT // 23) * 1.5)
+        #elif self.rect.y > src.game.Game.WIN_HEIGHT - ((src.game.Game.WIN_HEIGHT // 23) * 1.5):
+        #    self.rect.y = src.game.Game.WIN_HEIGHT - ((src.game.Game.WIN_HEIGHT // 23) * 1.5)
 
         # pos_y = camera_pos[1]
         # TODO: implement actual function of B, A, Start, Select buttons.
