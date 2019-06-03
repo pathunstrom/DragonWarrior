@@ -12,6 +12,7 @@ from pygame.transform import scale
 
 import src.maps
 import src.player
+from src import common
 from src.animated_sprite import AnimatedSprite
 from src.common import TILE_SIZE, SCALE
 
@@ -30,6 +31,8 @@ class Game(object):
     KING_LORIK_PATH = join(DATA_DIR, 'king_lorik.png')
     RIGHT_GUARD_PATH = join(DATA_DIR, 'right_guard.png')
     LEFT_GUARD_PATH = join(DATA_DIR, 'left_guard.png')
+    UP_GUARD_PATH = join(DATA_DIR, 'up_guard.png')
+    DOWN_GUARD_PATH = join(DATA_DIR, 'down_guard.png')
     ROAMING_GUARD_PATH = join(DATA_DIR, 'roaming_guard.png')
     COLOR_KEY = (0, 128, 128)
     ORIGIN = (0, 0)
@@ -57,12 +60,18 @@ class Game(object):
         self.king_lorik_sheet = None
         self.left_guard_sheet = None
         self.right_guard_sheet = None
+        self.up_guard_sheet = None
+        self.down_guard_sheet = None
         self.roaming_guard_sheet = None
         self.unarmed_hero_images = None
         self.king_lorik_images = None
         self.left_guard_images = None
         self.right_guard_images = None
+        self.up_guard_images = None
+        self.down_guard_images = None
         self.roaming_guard_images = None
+        self.roaming_guard_start_location = None
+        self.roaming_guard_current_location = None
         self.big_map_width = None
         self.big_map_height = None
         self.big_map = None
@@ -70,46 +79,103 @@ class Game(object):
         self.background = None
         self.load_images()
 
+    def get_roaming_guard_start_location(self, current_map):
+        # TODO: Extend this function beyond just roaming guard to all roaming characters.
+        for i, e in enumerate(current_map.layout):
+            if src.maps.ROAMING_GUARD in e:
+                try:
+                    self.roaming_guard_start_location = i, e.index(src.maps.ROAMING_GUARD)
+                except ValueError:
+                    pass
+        self.roaming_guard_current_location = self.roaming_guard_start_location
+        return self.roaming_guard_start_location
+
     def move_roaming_character(self):
-        # TODO: extend roaming characters beyond just the roaming guard.
+        # TODO: Extend roaming characters beyond just the roaming guard.
+        # TODO: Handle roaming character collision with player.
         for roaming_character in self.current_map.roaming_characters:
             roaming_character_direction = random.randrange(4)
-            if roaming_character_direction == 0:
+            # For debugging purposes, allowing for dev control of roaming character
+            # pygamekey = pygame.key.get_pressed()
+            # if pygamekey[pygame.K_DOWN]:
+            if roaming_character_direction == AnimatedSprite.DOWN:
+                x_trajectory = self.roaming_guard_current_location[0] + 1
+                y_trajectory = self.roaming_guard_current_location[1]
                 now = get_ticks()
                 if now - self.last_roaming_character_clock_check >= self.roaming_character_go_cooldown:
                     self.last_roaming_character_clock_check = now
                     roaming_character.direction = AnimatedSprite.DOWN
-                    roaming_character.rect.y += 48
-            elif roaming_character_direction == 1:
+                    if any(impassable_object == self.current_map.layout[x_trajectory][y_trajectory] for
+                           impassable_object in
+                           src.maps.impassable_objects):
+
+                        pass
+                    else:
+                        roaming_character.rect.y += common.TILE_SIZE
+                        self.roaming_guard_current_location = x_trajectory, y_trajectory
+            elif roaming_character_direction == AnimatedSprite.LEFT:
+                x_trajectory = self.roaming_guard_current_location[0]
+                y_trajectory = self.roaming_guard_current_location[1] - 1
                 now = get_ticks()
                 if now - self.last_roaming_character_clock_check >= self.roaming_character_go_cooldown:
                     self.last_roaming_character_clock_check = now
                     roaming_character.direction = AnimatedSprite.LEFT
-                    roaming_character.rect.x -= 48
-            elif roaming_character_direction == 2:
+                    if any(impassable_object == self.current_map.layout[x_trajectory][y_trajectory] for
+                           impassable_object in
+                           src.maps.impassable_objects):
+
+                        pass
+                    else:
+                        roaming_character.rect.x -= common.TILE_SIZE
+                        self.roaming_guard_current_location = x_trajectory, y_trajectory
+            elif roaming_character_direction == AnimatedSprite.UP:
+                x_trajectory = self.roaming_guard_current_location[0] - 1
+                y_trajectory = self.roaming_guard_current_location[1]
                 now = get_ticks()
                 if now - self.last_roaming_character_clock_check >= self.roaming_character_go_cooldown:
                     self.last_roaming_character_clock_check = now
                     roaming_character.direction = AnimatedSprite.UP
-                    roaming_character.rect.y -= 48
-            elif roaming_character_direction == 3:
+                    if any(impassable_object == self.current_map.layout[x_trajectory][y_trajectory] for
+                           impassable_object in
+                           src.maps.impassable_objects):
+
+                        pass
+                    else:
+                        roaming_character.rect.y -= common.TILE_SIZE
+                        self.roaming_guard_current_location = x_trajectory, y_trajectory
+            elif roaming_character_direction == AnimatedSprite.RIGHT:
+                x_trajectory = self.roaming_guard_current_location[0]
+                y_trajectory = self.roaming_guard_current_location[1] + 1
                 now = get_ticks()
                 if now - self.last_roaming_character_clock_check >= self.roaming_character_go_cooldown:
                     self.last_roaming_character_clock_check = now
                     roaming_character.direction = AnimatedSprite.RIGHT
-                    roaming_character.rect.x += 48
+                    if any(impassable_object == self.current_map.layout[x_trajectory][y_trajectory] for
+                           impassable_object in
+                           src.maps.impassable_objects):
+
+                        pass
+                    else:
+                        roaming_character.rect.x += common.TILE_SIZE
+                        self.roaming_guard_current_location = x_trajectory, y_trajectory
             # roaming character sides collision
-            if roaming_character.rect.x < 0:  # Simple Sides Collision
-                roaming_character.rect.x = 0  # Reset Player Rect Coord
-                # pos_x = camera_pos[0]  # Reset Camera Pos Coord
-            elif roaming_character.rect.x > int(self.WIN_WIDTH - ((self.WIN_WIDTH // 24) * 1.5)):
-                roaming_character.rect.x = int(self.WIN_WIDTH - ((self.WIN_WIDTH // 24) * 1.5))
-                # pos_x = camera_pos[0]
-            if roaming_character.rect.y < 0:
-                roaming_character.rect.y = 0
-                # pos_y = camera_pos[1]
-            elif self.current_map.roaming_guard.rect.y > self.WIN_HEIGHT - 48:
-                self.current_map.roaming_guard.rect.y = self.WIN_HEIGHT - 48
+            # if roaming_character.rect.x < 0:  # Simple Sides Collision
+            #    roaming_character.rect.x = 0  # Reset Player Rect Coord
+            #    # pos_x = camera_pos[0]  # Reset Camera Pos Coord
+            # elif roaming_character.rect.x > int(self.WIN_WIDTH - ((self.WIN_WIDTH // 24) * 1.5)):
+            #    roaming_character.rect.x = int(self.WIN_WIDTH - ((self.WIN_WIDTH // 24) * 1.5))
+            #    # pos_x = camera_pos[0]
+            # if roaming_character.rect.y < 0:
+            #    roaming_character.rect.y = 0
+            #    # pos_y = camera_pos[1]
+            # elif self.current_map.roaming_guard.rect.y > self.WIN_HEIGHT - common.TILE_SIZE:
+            #    self.current_map.roaming_guard.rect.y = self.WIN_HEIGHT - common.TILE_SIZE
+
+    def assign_roaming_guard_images(self):
+        self.current_map.roaming_guard.down_images = self.roaming_guard_images[0]
+        self.current_map.roaming_guard.left_images = self.roaming_guard_images[1]
+        self.current_map.roaming_guard.up_images = self.roaming_guard_images[2]
+        self.current_map.roaming_guard.right_images = self.roaming_guard_images[3]
 
     def make_big_map(self):
         self.big_map_width = self.current_map.width
@@ -124,8 +190,10 @@ class Game(object):
                                                            self.right_guard_images, self.roaming_guard_images)
         elif current_map == src.maps.TantegelCourtyard:
             self.current_map = src.maps.TantegelCourtyard(self.map_tiles, self.unarmed_hero_images,
+                                                          self.down_guard_images,
                                                           self.left_guard_images,
-                                                          self.right_guard_images, self.roaming_guard_images)
+                                                          self.right_guard_images, self.up_guard_images,
+                                                          self.roaming_guard_images)
         elif current_map == src.maps.Overworld:
             self.current_map = src.maps.Overworld(self.map_tiles, self.unarmed_hero_images)
         self.current_map.load_map()
@@ -140,21 +208,29 @@ class Game(object):
         # Load King Lorik images
         self.king_lorik_sheet = load_extended(self.KING_LORIK_PATH)
         # Guard images.
+        self.down_guard_sheet = load_extended(self.DOWN_GUARD_PATH)
         self.left_guard_sheet = load_extended(self.LEFT_GUARD_PATH)
         self.right_guard_sheet = load_extended(self.RIGHT_GUARD_PATH)
+        self.up_guard_sheet = load_extended(self.UP_GUARD_PATH)
         self.roaming_guard_sheet = load_extended(self.ROAMING_GUARD_PATH)
 
         self.map_tilesheet = scale(self.map_tilesheet,
                                    (self.map_tilesheet.get_width() * SCALE,
                                     self.map_tilesheet.get_height() * SCALE))
+
         self.unarmed_hero_sheet = scale(self.unarmed_hero_sheet,
                                         (self.unarmed_hero_sheet.get_width() *
                                          SCALE,
                                          self.unarmed_hero_sheet.get_height() *
                                          SCALE))
+
         self.king_lorik_sheet = scale(self.king_lorik_sheet,
                                       (self.king_lorik_sheet.get_width() * SCALE,
                                        self.king_lorik_sheet.get_height() * SCALE))
+
+        self.down_guard_sheet = scale(self.down_guard_sheet,
+                                      (self.down_guard_sheet.get_width() * SCALE,
+                                       self.down_guard_sheet.get_height() * SCALE))
 
         self.left_guard_sheet = scale(self.left_guard_sheet,
                                       (self.left_guard_sheet.get_width() * SCALE,
@@ -163,6 +239,10 @@ class Game(object):
         self.right_guard_sheet = scale(self.right_guard_sheet,
                                        (self.right_guard_sheet.get_width() * SCALE,
                                         self.right_guard_sheet.get_height() * SCALE))
+
+        self.up_guard_sheet = scale(self.up_guard_sheet,
+                                    (self.up_guard_sheet.get_width() * SCALE,
+                                     self.up_guard_sheet.get_height() * SCALE))
 
         self.roaming_guard_sheet = scale(self.roaming_guard_sheet,
                                          (self.roaming_guard_sheet.get_width() * SCALE,
@@ -178,11 +258,17 @@ class Game(object):
         self.king_lorik_images = self.parse_animated_spritesheet(
             self.king_lorik_sheet, is_roaming=False)
 
+        self.down_guard_images = self.parse_animated_spritesheet(
+            self.down_guard_sheet, is_roaming=False)
+
         self.left_guard_images = self.parse_animated_spritesheet(
             self.left_guard_sheet, is_roaming=False)
 
         self.right_guard_images = self.parse_animated_spritesheet(
             self.right_guard_sheet, is_roaming=False)
+
+        self.up_guard_images = self.parse_animated_spritesheet(
+            self.up_guard_sheet, is_roaming=False)
 
         self.roaming_guard_images = self.parse_animated_spritesheet(
             self.roaming_guard_sheet, is_roaming=True)
@@ -253,6 +339,8 @@ class Game(object):
         # TODO: Handle maps that don't have roaming characters better.
         if self.current_map.roaming_characters:
             self.assign_roaming_guard_images()
+            self.roaming_guard_current_location = self.get_roaming_guard_start_location(self.current_map)
+
         src.player.Player.get_hero_start_location(self.current_map.player, self.current_map)
         while True:
             for game_event in event.get():
@@ -268,7 +356,7 @@ class Game(object):
                                                       self.WIN_HEIGHT).convert()
             self.current_map.clear_sprites(self.screen, self.background)
 
-            # TODO: disable moving if a dialog box is open.
+            # TODO: Disable moving if a dialog box is open.
             # print(self.current_map.player.move(camera_pos, self.current_map))
             self.move_roaming_character()
             self.current_map.animate()
@@ -279,12 +367,6 @@ class Game(object):
             flip()
             self.clock.tick(self.FPS)
             # self.screen.blit(self.background, self.ORIGIN)
-
-    def assign_roaming_guard_images(self):
-        self.current_map.roaming_guard.down_images = self.roaming_guard_images[0]
-        self.current_map.roaming_guard.left_images = self.roaming_guard_images[1]
-        self.current_map.roaming_guard.up_images = self.roaming_guard_images[2]
-        self.current_map.roaming_guard.right_images = self.roaming_guard_images[3]
 
 
 if __name__ == "__main__":

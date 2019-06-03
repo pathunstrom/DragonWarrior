@@ -121,7 +121,7 @@ class Player(AnimatedSprite):
         #    self.rect.y = src.game.Game.WIN_HEIGHT - ((src.game.Game.WIN_HEIGHT // 23) * 1.5)
 
         # pos_y = camera_pos[1]
-        # TODO: implement actual function of B, A, Start, Select buttons.
+        # TODO: Implement actual function of B, A, Start, Select buttons.
         if key[pygame.K_z]:
             # B button
             print("You pressed the z key.")

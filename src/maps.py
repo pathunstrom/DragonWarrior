@@ -50,11 +50,13 @@ KING_LORIK = 35
 LEFT_GUARD = 36
 RIGHT_GUARD = 37
 ROAMING_GUARD = 38
+UP_GUARD = 39
+DOWN_GUARD = 40
 
 impassable_objects = [ROOF, WALL, WOOD, DOOR, BARRIER, WEAPON_SIGN, INN_SIGN, MOUNTAINS, WATER, BOTTOM_COAST,
                       BOTTOM_LEFT_COAST, LEFT_COAST, TOP_LEFT_COAST, TOP_COAST, TOP_RIGHT_COAST, RIGHT_COAST,
                       BOTTOM_RIGHT_COAST, BOTTOM_TOP_LEFT_COAST, BOTTOM_TOP_COAST, BOTTOM_TOP_RIGHT_COAST, KING_LORIK,
-                      LEFT_GUARD, RIGHT_GUARD]
+                      LEFT_GUARD, RIGHT_GUARD, UP_GUARD, DOWN_GUARD]
 
 tantegel_throne_room = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -89,13 +91,13 @@ tantegel_courtyard = [
     [1, 3, 3, 1, 3, 3, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 3, 3, 1, 3, 3, 1, 13, 13, 13, 14, 14, 13, 13, 13],
     [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3],
     [1, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3],
-    [1, 1, 1, 1, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3],
+    [1, 1, 1, 1, 1, 3, 1, 3, 40, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3],
     [1, 3, 3, 3, 1, 3, 1, 34, 3, 3, 3, 3, 3, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3],
-    [1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 1, 3, 39, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3],
     [1, 3, 3, 3, 1, 3, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3],
     [1, 1, 1, 1, 1, 3, 1, 14, 14, 3, 3, 3, 3, 14, 14, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 3, 3, 3, 1, 3, 1, 14, 14, 3, 3, 3, 3, 14, 14, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-    [1, 3, 3, 3, 1, 3, 1, 14, 13, 3, 3, 3, 3, 13, 14, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 38, 3, 1, 3, 1, 14, 13, 3, 3, 3, 3, 13, 14, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 4, 3, 3, 5, 3, 1, 13, 13, 3, 3, 3, 3, 13, 13, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 3, 4, 3, 1, 3, 1, 13, 13, 3, 3, 3, 3, 13, 13, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 4, 3, 4, 1, 3, 1, 13, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
@@ -401,54 +403,47 @@ class TantegelThroneRoom(DragonWarriorMap):
     def __init__(self, map_tiles, hero_images=None, king_lorik_images=None, left_guard_images=None,
                  right_guard_images=None, roaming_guard_images=None):
         super().__init__(map_tiles, hero_images)
-        self.current_map = TantegelThroneRoom
 
-        self.king_lorik_sprites = RenderUpdates()
-        if king_lorik_images is None:
-            king_lorik_images = []
-        self.king_lorik_images = king_lorik_images
+        # King Lorik
+
         self.king_lorik = AnimatedSprite
+        self.king_lorik_images = king_lorik_images
+        self.king_lorik_sprites = RenderUpdates()
 
-        self.left_guard_sprites = RenderUpdates()
-        if left_guard_images is None:
-            left_guard_images = []
+        # Left Guard
+
         self.left_guard_images = left_guard_images
         self.left_guard = AnimatedSprite
+        self.left_guard_sprites = RenderUpdates()
 
-        self.right_guard_sprites = RenderUpdates()
-        if right_guard_images is None:
-            right_guard_images = []
-        self.right_guard_images = right_guard_images
+        # Right Guard
+
         self.right_guard = AnimatedSprite
+        self.right_guard_images = right_guard_images
+        self.right_guard_sprites = RenderUpdates()
+
+        # Roaming Guard
 
         self.roaming_guard_sprites = RenderUpdates()
-        if roaming_guard_images is None:
-            roaming_guard_images = []
-        self.roaming_guard_images = roaming_guard_images
         self.roaming_guard = AnimatedSprite
-
-        self.map_tiles = map_tiles
-
-        if hero_images is None:
-            hero_images = []
-        self.hero_images = hero_images
-        self.player = None
-
-        self.roaming_characters = []
-        self.center_pt = None
-
+        self.roaming_guard_images = roaming_guard_images
         self.roaming_guard = None
-        self.player_sprites = None
+
+        self.current_map = TantegelThroneRoom
+
+        self.hero_images = hero_images
+
         self.last_map = None
+        self.npcs = [self.king_lorik, self.left_guard, self.right_guard, self.roaming_guard]
         self.npc_sprites = [self.king_lorik_sprites, self.left_guard_sprites, self.right_guard_sprites,
                             self.roaming_guard_sprites]
-        self.npcs = [self.king_lorik, self.left_guard, self.right_guard, self.roaming_guard]
         self.layout = tantegel_throne_room
         self.width = len(self.layout[0] * TILE_SIZE)
         self.height = len(self.layout * TILE_SIZE)
+
         self.bgm = join(game.Game.MUSIC_DIR, '02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg')
         pygame.mixer.music.load(self.bgm)
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
 
     def load_map(self):
         current_loaded_map = self
@@ -535,38 +530,52 @@ class TantegelCourtyard(DragonWarriorMap):
     This is the lower level of the first map in the game.
     """
 
-    def __init__(self, map_tiles, hero_images=None, left_guard_images=None, right_guard_images=None,
-                 roaming_guard_images=None):
-
+    def __init__(self, map_tiles, hero_images=None, down_guard_images=None, left_guard_images=None,
+                 right_guard_images=None,
+                 up_guard_images=None, roaming_guard_images=None):
         super().__init__(map_tiles, hero_images)
         self.current_map = TantegelCourtyard
+
+        self.down_guard_sprites = RenderUpdates()
+        if down_guard_images is None:
+            down_guard_images = []
+        self.down_guard_images = down_guard_images
+        self.down_guard = AnimatedSprite
 
         self.left_guard_sprites = RenderUpdates()
         if left_guard_images is None:
             left_guard_images = []
         self.left_guard_images = left_guard_images
-        self.left_guard = None
+        self.left_guard = AnimatedSprite
 
         self.right_guard_sprites = RenderUpdates()
         if right_guard_images is None:
             right_guard_images = []
         self.right_guard_images = right_guard_images
-        self.right_guard = None
+        self.right_guard = AnimatedSprite
+
+        self.up_guard_sprites = RenderUpdates()
+        if up_guard_images is None:
+            up_guard_images = []
+        self.up_guard_images = up_guard_images
+        self.up_guard = AnimatedSprite
 
         self.roaming_guard_sprites = RenderUpdates()
         if roaming_guard_images is None:
             roaming_guard_images = []
         self.roaming_guard_images = roaming_guard_images
-        self.roaming_guard = None
+        self.roaming_guard = AnimatedSprite
 
-        self.npcs = [self.left_guard, self.right_guard, self.roaming_guard]
+        self.npcs = [self.down_guard, self.left_guard, self.right_guard, self.up_guard, self.roaming_guard]
+        self.npc_sprites = [self.up_guard_sprites, self.down_guard_sprites, self.left_guard_sprites,
+                            self.right_guard_sprites, self.roaming_guard_sprites]
         self.layout = tantegel_courtyard
         self.width = len(self.layout[0] * TILE_SIZE)
         self.height = len(self.layout * TILE_SIZE)
 
         self.bgm = join(game.Game.MUSIC_DIR, '03_Dragon_Quest_1_-_Tantegel_Castle_(Lower)_(22khz_mono).ogg')
         pygame.mixer.music.load(self.bgm)
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
 
     def load_map(self):
 
@@ -674,6 +683,10 @@ class TantegelCourtyard(DragonWarriorMap):
                 elif self.layout[y][x] == HERO:
                     self.player_right(self.center_pt)
                     self.brick_stair_up_group.add(brick_stair_up)
+                elif self.layout[y][x] == DOWN_GUARD:
+                    self.down_guard = AnimatedSprite(self.center_pt, 0, self.down_guard_images[0])
+                    self.down_guard_sprites.add(self.down_guard)
+                    self.brick_group.add(brick)
                 elif self.layout[y][x] == LEFT_GUARD:
                     self.left_guard = AnimatedSprite(self.center_pt, 0, self.left_guard_images[0])
                     self.left_guard_sprites.add(self.left_guard)
@@ -681,6 +694,10 @@ class TantegelCourtyard(DragonWarriorMap):
                 elif self.layout[y][x] == RIGHT_GUARD:
                     self.right_guard = AnimatedSprite(self.center_pt, 0, self.right_guard_images[0])
                     self.right_guard_sprites.add(self.right_guard)
+                    self.brick_group.add(brick)
+                elif self.layout[y][x] == UP_GUARD:
+                    self.up_guard = AnimatedSprite(self.center_pt, 0, self.up_guard_images[0])
+                    self.up_guard_sprites.add(self.up_guard)
                     self.brick_group.add(brick)
                 elif self.layout[y][x] == ROAMING_GUARD:
                     self.roaming_guard = AnimatedSprite(self.center_pt, 0, self.roaming_guard_images[0])
@@ -691,16 +708,11 @@ class TantegelCourtyard(DragonWarriorMap):
 
     def animate(self):
         self.player.animate()
-        self.left_guard.animate()
-        self.right_guard.animate()
+        self.up_guard.animate()
         self.roaming_guard.animate()
-
-    # def draw_map(self, surface):
-    #    """
-    #    Draw static npc_sprites on the big map.
-    #    """
-    #    for group in self.tile_groups:
-    #        group.draw(surface)
+        # self.left_guard.animate()
+        # self.right_guard.animate()
+        self.down_guard.animate()
 
 
 class Overworld(DragonWarriorMap):
@@ -718,4 +730,4 @@ class Overworld(DragonWarriorMap):
 
         self.bgm = join(game.Game.MUSIC_DIR, '05 Dragon Quest 1 - Kingdom of Alefgard (22khz mono).ogg')
         pygame.mixer.music.load(self.bgm)
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
