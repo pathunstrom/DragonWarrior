@@ -42,6 +42,7 @@ class Game(object):
 
     def __init__(self):
         # Initialize pygame
+
         init()
 
         # Create the game window.
@@ -70,8 +71,7 @@ class Game(object):
         self.up_guard_images = None
         self.down_guard_images = None
         self.roaming_guard_images = None
-        self.roaming_guard_start_location = None
-        self.roaming_guard_current_location = None
+        self.focused_roaming_character = None
         self.big_map_width = None
         self.big_map_height = None
         self.big_map = None
@@ -79,95 +79,87 @@ class Game(object):
         self.background = None
         self.load_images()
 
-    def get_roaming_guard_start_location(self, current_map):
+    def get_roaming_character_start_location(self, current_map):
         # TODO: Extend this function beyond just roaming guard to all roaming characters.
         for i, e in enumerate(current_map.layout):
-            if src.maps.ROAMING_GUARD in e:
+            if any(src.maps.roaming_characters) in e:
                 try:
-                    self.roaming_guard_start_location = i, e.index(src.maps.ROAMING_GUARD)
+                    self.current_map.roaming_guard.start_location = i, e.index(src.maps.ROAMING_GUARD)
                 except ValueError:
                     pass
-        self.roaming_guard_current_location = self.roaming_guard_start_location
-        return self.roaming_guard_start_location
+                try:
+                    self.current_map.roaming_mage.start_location = i, e.index(src.maps.ROAMING_MAGE)
+                except ValueError:
+                    pass
+
+        self.current_map.roaming_guard.current_location = self.current_map.roaming_guard.start_location
+        return self.current_map.roaming_guard.start_location
 
     def move_roaming_character(self):
         # TODO: Extend roaming characters beyond just the roaming guard.
         # TODO: Handle roaming character collision with player.
         for roaming_character in self.current_map.roaming_characters:
+            self.focused_roaming_character = roaming_character
             roaming_character_direction = random.randrange(4)
-            # For debugging purposes, allowing for dev control of roaming character
-            # pygamekey = pygame.key.get_pressed()
-            # if pygamekey[pygame.K_DOWN]:
             if roaming_character_direction == AnimatedSprite.DOWN:
-                x_trajectory = self.roaming_guard_current_location[0] + 1
-                y_trajectory = self.roaming_guard_current_location[1]
+                x_trajectory = roaming_character.current_location[0] + 1
+                y_trajectory = roaming_character.current_location[1]
                 now = get_ticks()
                 if now - self.last_roaming_character_clock_check >= self.roaming_character_go_cooldown:
                     self.last_roaming_character_clock_check = now
                     roaming_character.direction = AnimatedSprite.DOWN
                     if any(impassable_object == self.current_map.layout[x_trajectory][y_trajectory] for
-                           impassable_object in
-                           src.maps.impassable_objects):
-
+                           impassable_object in src.maps.impassable_objects):
                         pass
                     else:
                         roaming_character.rect.y += common.TILE_SIZE
-                        self.roaming_guard_current_location = x_trajectory, y_trajectory
+                        roaming_character.current_location = x_trajectory, y_trajectory
             elif roaming_character_direction == AnimatedSprite.LEFT:
-                x_trajectory = self.roaming_guard_current_location[0]
-                y_trajectory = self.roaming_guard_current_location[1] - 1
+                x_trajectory = roaming_character.current_location[0]
+                y_trajectory = roaming_character.current_location[1] - 1
                 now = get_ticks()
                 if now - self.last_roaming_character_clock_check >= self.roaming_character_go_cooldown:
                     self.last_roaming_character_clock_check = now
                     roaming_character.direction = AnimatedSprite.LEFT
                     if any(impassable_object == self.current_map.layout[x_trajectory][y_trajectory] for
-                           impassable_object in
-                           src.maps.impassable_objects):
-
+                           impassable_object in src.maps.impassable_objects):
                         pass
                     else:
                         roaming_character.rect.x -= common.TILE_SIZE
-                        self.roaming_guard_current_location = x_trajectory, y_trajectory
+                        roaming_character.current_location = x_trajectory, y_trajectory
             elif roaming_character_direction == AnimatedSprite.UP:
-                x_trajectory = self.roaming_guard_current_location[0] - 1
-                y_trajectory = self.roaming_guard_current_location[1]
+                x_trajectory = roaming_character.current_location[0] - 1
+                y_trajectory = roaming_character.current_location[1]
                 now = get_ticks()
                 if now - self.last_roaming_character_clock_check >= self.roaming_character_go_cooldown:
                     self.last_roaming_character_clock_check = now
                     roaming_character.direction = AnimatedSprite.UP
                     if any(impassable_object == self.current_map.layout[x_trajectory][y_trajectory] for
-                           impassable_object in
-                           src.maps.impassable_objects):
-
+                           impassable_object in src.maps.impassable_objects):
                         pass
                     else:
                         roaming_character.rect.y -= common.TILE_SIZE
-                        self.roaming_guard_current_location = x_trajectory, y_trajectory
+                        roaming_character.current_location = x_trajectory, y_trajectory
             elif roaming_character_direction == AnimatedSprite.RIGHT:
-                x_trajectory = self.roaming_guard_current_location[0]
-                y_trajectory = self.roaming_guard_current_location[1] + 1
+                x_trajectory = roaming_character.current_location[0]
+                y_trajectory = roaming_character.current_location[1] + 1
                 now = get_ticks()
                 if now - self.last_roaming_character_clock_check >= self.roaming_character_go_cooldown:
                     self.last_roaming_character_clock_check = now
                     roaming_character.direction = AnimatedSprite.RIGHT
                     if any(impassable_object == self.current_map.layout[x_trajectory][y_trajectory] for
-                           impassable_object in
-                           src.maps.impassable_objects):
-
+                           impassable_object in src.maps.impassable_objects):
                         pass
                     else:
                         roaming_character.rect.x += common.TILE_SIZE
-                        self.roaming_guard_current_location = x_trajectory, y_trajectory
+                        roaming_character.current_location = x_trajectory, y_trajectory
             # roaming character sides collision
-            # if roaming_character.rect.x < 0:  # Simple Sides Collision
-            #    roaming_character.rect.x = 0  # Reset Player Rect Coord
-            #    # pos_x = camera_pos[0]  # Reset Camera Pos Coord
+            if roaming_character.rect.x < 0:  # Simple Sides Collision
+                roaming_character.rect.x = 0  # Reset Rect Coord
             # elif roaming_character.rect.x > int(self.WIN_WIDTH - ((self.WIN_WIDTH // 24) * 1.5)):
             #    roaming_character.rect.x = int(self.WIN_WIDTH - ((self.WIN_WIDTH // 24) * 1.5))
-            #    # pos_x = camera_pos[0]
-            # if roaming_character.rect.y < 0:
-            #    roaming_character.rect.y = 0
-            #    # pos_y = camera_pos[1]
+            if roaming_character.rect.y < 0:
+                roaming_character.rect.y = 0
             # elif self.current_map.roaming_guard.rect.y > self.WIN_HEIGHT - common.TILE_SIZE:
             #    self.current_map.roaming_guard.rect.y = self.WIN_HEIGHT - common.TILE_SIZE
 
@@ -319,7 +311,7 @@ class Game(object):
 
     def main(self):
         # This can be changed to a different map for debugging purposes.
-        self.load_current_map(src.maps.TantegelThroneRoom)
+        self.load_current_map(src.maps.TantegelCourtyard)
         player = self.current_map.player
         camera_pos = (0, 0)
 
@@ -339,7 +331,8 @@ class Game(object):
         # TODO: Handle maps that don't have roaming characters better.
         if self.current_map.roaming_characters:
             self.assign_roaming_guard_images()
-            self.roaming_guard_current_location = self.get_roaming_guard_start_location(self.current_map)
+            self.current_map.roaming_guard.current_location = self.get_roaming_character_start_location(
+                self.current_map)
 
         src.player.Player.get_hero_start_location(self.current_map.player, self.current_map)
         while True:
@@ -348,25 +341,23 @@ class Game(object):
                     quit()
                     sys.exit()
             camera_pos = player.move(camera_pos, self.current_map)
-            print(camera_pos)
             self.big_map = Surface((self.big_map_width, self.big_map_height)).convert()
             self.big_map.fill(self.BACK_FILL_COLOR)
             self.current_map.draw_map(self.big_map)
-            self.background = self.big_map.subsurface(self.corner_point[0], self.corner_point[1], self.WIN_WIDTH,
-                                                      self.WIN_HEIGHT).convert()
+            #self.background = self.big_map.subsurface(self.corner_point[0], self.corner_point[1], self.current_map.width, self.current_map.height).convert()
+            self.background = self.big_map.subsurface(self.corner_point[0], self.corner_point[1], self.WIN_WIDTH,self.WIN_HEIGHT).convert()
             self.current_map.clear_sprites(self.screen, self.background)
 
             # TODO: Disable moving if a dialog box is open.
-            # print(self.current_map.player.move(camera_pos, self.current_map))
             self.move_roaming_character()
             self.current_map.animate()
             self.current_map.draw_sprites(self.background)
-            # self.screen.blit(self.background, self.ORIGIN)
             self.screen.blit(self.background, self.ORIGIN)
+            #camera_pos = self.current_map.player.hero_current_location[0]*48, self.current_map.player.hero_current_location[1]*48
+            #self.screen.scroll(dy=(self.current_map.player.hero_current_location[0]*48), dx=(self.current_map.player.hero_current_location[1]*48))
             self.screen.scroll(dx=camera_pos[0], dy=camera_pos[1])
             flip()
             self.clock.tick(self.FPS)
-            # self.screen.blit(self.background, self.ORIGIN)
 
 
 if __name__ == "__main__":

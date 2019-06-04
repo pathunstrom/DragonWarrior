@@ -52,11 +52,14 @@ RIGHT_GUARD = 37
 ROAMING_GUARD = 38
 UP_GUARD = 39
 DOWN_GUARD = 40
+ROAMING_MAGE = 41
 
 impassable_objects = [ROOF, WALL, WOOD, DOOR, BARRIER, WEAPON_SIGN, INN_SIGN, MOUNTAINS, WATER, BOTTOM_COAST,
                       BOTTOM_LEFT_COAST, LEFT_COAST, TOP_LEFT_COAST, TOP_COAST, TOP_RIGHT_COAST, RIGHT_COAST,
                       BOTTOM_RIGHT_COAST, BOTTOM_TOP_LEFT_COAST, BOTTOM_TOP_COAST, BOTTOM_TOP_RIGHT_COAST, KING_LORIK,
                       LEFT_GUARD, RIGHT_GUARD, UP_GUARD, DOWN_GUARD]
+
+roaming_characters = [ROAMING_GUARD, ROAMING_MAGE]
 
 tantegel_throne_room = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -100,12 +103,12 @@ tantegel_courtyard = [
     [1, 3, 38, 3, 1, 3, 1, 14, 13, 3, 3, 3, 3, 13, 14, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 4, 3, 3, 5, 3, 1, 13, 13, 3, 3, 3, 3, 13, 13, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 3, 4, 3, 1, 3, 1, 13, 13, 3, 3, 3, 3, 13, 13, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-    [1, 4, 3, 4, 1, 3, 1, 13, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-    [1, 1, 1, 1, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-    [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 4, 3, 4, 1, 3, 1, 13, 3, 22, 22, 22, 22, 3, 13, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 1, 1, 1, 1, 3, 1, 3,  3, 22, 8,  8,  22, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 3,  3, 22, 8,  8,  22, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 1, 1, 3, 3, 1, 1, 1,  3, 22, 22, 22, 22, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
@@ -208,6 +211,7 @@ class DragonWarriorMap(object):
         self.layout = None
         self.npcs = []
         self.bgm = ""
+        self.musicOn = False
 
     def load_map(self):
         current_loaded_map = self
@@ -440,10 +444,10 @@ class TantegelThroneRoom(DragonWarriorMap):
         self.layout = tantegel_throne_room
         self.width = len(self.layout[0] * TILE_SIZE)
         self.height = len(self.layout * TILE_SIZE)
-
-        self.bgm = join(game.Game.MUSIC_DIR, '02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg')
-        pygame.mixer.music.load(self.bgm)
-        pygame.mixer.music.play(-1)
+        if self.musicOn:
+            self.bgm = join(game.Game.MUSIC_DIR, '02_Dragon_Quest_1_-_Tantegel_Castle_(22khz_mono).ogg')
+            pygame.mixer.music.load(self.bgm)
+            pygame.mixer.music.play(-1)
 
     def load_map(self):
         current_loaded_map = self
@@ -572,10 +576,10 @@ class TantegelCourtyard(DragonWarriorMap):
         self.layout = tantegel_courtyard
         self.width = len(self.layout[0] * TILE_SIZE)
         self.height = len(self.layout * TILE_SIZE)
-
-        self.bgm = join(game.Game.MUSIC_DIR, '03_Dragon_Quest_1_-_Tantegel_Castle_(Lower)_(22khz_mono).ogg')
-        pygame.mixer.music.load(self.bgm)
-        pygame.mixer.music.play(-1)
+        if self.musicOn:
+            self.bgm = join(game.Game.MUSIC_DIR, '03_Dragon_Quest_1_-_Tantegel_Castle_(Lower)_(22khz_mono).ogg')
+            pygame.mixer.music.load(self.bgm)
+            pygame.mixer.music.play(-1)
 
     def load_map(self):
 
@@ -728,6 +732,7 @@ class Overworld(DragonWarriorMap):
         self.width = len(self.layout[0] * TILE_SIZE)
         self.height = len(self.layout * TILE_SIZE)
 
-        self.bgm = join(game.Game.MUSIC_DIR, '05 Dragon Quest 1 - Kingdom of Alefgard (22khz mono).ogg')
-        pygame.mixer.music.load(self.bgm)
-        pygame.mixer.music.play(-1)
+        if self.musicOn:
+            self.bgm = join(game.Game.MUSIC_DIR, '05 Dragon Quest 1 - Kingdom of Alefgard (22khz mono).ogg')
+            pygame.mixer.music.load(self.bgm)
+            pygame.mixer.music.play(-1)

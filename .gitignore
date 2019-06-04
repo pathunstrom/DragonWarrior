@@ -44,3 +44,10 @@ data/.DS_Store
 src/__pycache__/player.cpython-37.pyc
 src/__pycache__/maps.cpython-37.pyc
 src/__pycache__/animated_sprite.cpython-37.pyc
+src/__pycache__/player.cpython-37.pyc
+src/__pycache__/maps.cpython-37.pyc
+src/__pycache__/common.cpython-37.pyc
+src/__pycache__/base_sprite.cpython-37.pyc
+src/__pycache__/animated_sprite.cpython-37.pyc
+DragonWarrior_clone/lib/python3.7/site-packages/pygame/__pycache__/sprite.cpython-37.pyc
+DragonWarrior_clone/lib/python3.7/site-packages/pygame/__pycache__/locals.cpython-37.pyc
